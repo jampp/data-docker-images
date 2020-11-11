@@ -6,8 +6,8 @@ LABEL com.jampp.maintainer="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL com.jampp.description="Spark base image"
 
 ENV SPARK_VERSION=2.4.4
-ENV SPARK_HOME=/spark/
-ENV HIVE_HOME=/opt/hive
+ENV SPARK_CONF_DIR=/spark/conf
+ENV SPARK_HOME=/opt/spark
 
 ENV ENABLE_INIT_DAEMON=true
 ENV INIT_DAEMON_BASE_URI=http://identifier/init-daemon
@@ -16,7 +16,7 @@ ENV INIT_DAEMON_STEP=spark_master_init
 RUN apt-get update && apt-get install -y curl wget && \
     wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-without-hadoop.tgz && \
     tar -xvzf spark-${SPARK_VERSION}-bin-without-hadoop.tgz && \
-    mv spark-${SPARK_VERSION}-bin-without-hadoop spark && \
+    mv spark-${SPARK_VERSION}-bin-without-hadoop ${SPARK_HOME} && \
     rm spark-${SPARK_VERSION}-bin-without-hadoop.tgz && \
     apt-get --purge remove -y wget && \
 	apt-get clean && \
@@ -38,8 +38,9 @@ COPY finish-step.sh /
 
 RUN chmod +x /wait-for-step.sh && chmod +x /execute-step.sh && chmod +x /finish-step.sh
 
-RUN mkdir -p /spark/conf/ && cp $HIVE_HOME/conf/hive-site.xml /spark/conf/hive-site.xml
-COPY spark-env.sh /spark/conf/
+RUN mkdir -p ${SPARK_CONF_DIR} && cp $HIVE_HOME/conf/hive-site.xml ${SPARK_CONF_DIR}/hive-site.xml
+COPY spark-defaults.conf ${SPARK_CONF_DIR}/
+COPY spark-env.sh $SPARK_CONF_DIR/
 
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh

@@ -9,7 +9,7 @@ ENV HADOOP_VERSION=2.8.5
 ENV HIVE_VERSION=2.3.6
 
 # Version that works with minio
-ARG AWS_VERSION=1.10.75.2
+ARG AWS_VERSION=1.11.534
 
 ENV HIVE_HOME=/opt/hive
 ENV PATH=$HIVE_HOME/bin:$PATH
@@ -29,10 +29,10 @@ RUN apt-get update && apt-get install -y wget procps && \
 	rm -rf /var/lib/apt/lists/*
 
 # Install AWS jars  
-RUN curl -L http://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_VERSION}/aws-java-sdk-${AWS_VERSION}.jar -o /opt/hive/lib/aws-java-sdk.jar && \
-    curl -L http://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-core/${AWS_VERSION}/aws-java-sdk-core-${AWS_VERSION}.jar -o /opt/hive/lib/aws-java-sdk-core.jar && \
-    curl -L http://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/${AWS_VERSION}/aws-java-sdk-s3-${AWS_VERSION}.jar -o /opt/hive/lib/aws-java-sdk-s3.jar && \
-    curl -L http://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar -o /opt/hive/lib/hadoop-aws.jar
+RUN curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_VERSION}/aws-java-sdk-${AWS_VERSION}.jar -o /opt/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/aws-java-sdk.jar && \
+curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-core/${AWS_VERSION}/aws-java-sdk-core-${AWS_VERSION}.jar -o /opt/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/aws-java-sdk-core.jar && \
+curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/${AWS_VERSION}/aws-java-sdk-s3-${AWS_VERSION}.jar -o /opt/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/aws-java-sdk-s3.jar && \
+curl -L https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar -o /opt/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/hadoop-aws.jar
 
 #Custom configuration goes here
 ADD conf/hive-site.xml $HIVE_HOME/conf

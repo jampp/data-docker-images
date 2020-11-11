@@ -34,6 +34,7 @@ ENV HADOOP_PREFIX=/opt/hadoop-$HADOOP_VERSION
 ENV HADOOP_CONF_DIR=/etc/hadoop
 ENV MULTIHOMED_NETWORK=1
 
+ENV USER=root
 ENV PATH=$HADOOP_PREFIX/bin/:$PATH
 
 ADD entrypoint.sh /entrypoint.sh
