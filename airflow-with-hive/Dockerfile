@@ -2,7 +2,7 @@ FROM docker.jampp.com/hadoop-hive:hive-2.3.6-hadoop2.8.5-java8 as hive
 FROM apache/airflow:1.10.12
 
 LABEL com.jampp.maintainer="Data Infrastructure Team <data-infra@jampp.com>"
-LABEL com.jampp.description="Airflow image for Wolfria"
+LABEL com.jampp.description="Airflow with Hive"
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TERM=linux
