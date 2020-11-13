@@ -1,6 +1,6 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-datanode
 
-FROM docker.jampp.com/hadoop-base:hadoop2.8.5-java8
+FROM docker.jampp.com/hadoop-base:hadoop-2.8.5-java8
 
 LABEL com.jampp.maintainer="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL com.jampp.description="Hadoop datanode image"

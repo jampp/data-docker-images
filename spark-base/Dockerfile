@@ -1,6 +1,6 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/bde2020/spark-base
 
-FROM docker.jampp.com/hadoop-hive:hive-2.3.6-hadoop2.8.5-java8
+FROM docker.jampp.com/hadoop-hive:hive-2.3.6-hadoop-2.8.5-java8
 
 LABEL com.jampp.maintainer="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL com.jampp.description="Spark base image"
@@ -39,8 +39,8 @@ COPY finish-step.sh /
 RUN chmod +x /wait-for-step.sh && chmod +x /execute-step.sh && chmod +x /finish-step.sh
 
 RUN mkdir -p ${SPARK_CONF_DIR} && cp $HIVE_HOME/conf/hive-site.xml ${SPARK_CONF_DIR}/hive-site.xml
-COPY spark-defaults.conf ${SPARK_CONF_DIR}/
 COPY spark-env.sh $SPARK_CONF_DIR/
+COPY spark-defaults.conf $SPARK_CONF_DIR/
 
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh

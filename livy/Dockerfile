@@ -1,4 +1,4 @@
-FROM docker.jampp.com/spark-base:spark-2.4.4-hive-2.3.6-hadoop2.8.5-java8
+FROM docker.jampp.com/spark-base:spark-2.4.4-hive-2.3.6-hadoop-2.8.5-java8
 
 # Create folder for Livy source files
 RUN mkdir -p /src/livy
