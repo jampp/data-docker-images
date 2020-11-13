@@ -4,13 +4,13 @@
 export CORE_CONF_fs_defaultFS=${CORE_CONF_fs_defaultFS:-hdfs://`hostname -f`:8020}
 
 function addProperty() {
-  local path=$1
-  local name=$2
-  local value=$3
+    local path=$1
+    local name=$2
+    local value=$3
 
-  local entry="<property><name>$name</name><value>${value}</value></property>"
-  local escapedEntry=$(echo $entry | sed 's/\//\\\//g')
-  sed -i "/<\/configuration>/ s/.*/${escapedEntry}\n&/" $path
+    local entry="<property><name>$name</name><value>${value}</value></property>"
+    local escapedEntry=$(echo $entry | sed 's/\//\\\//g')
+    sed -i "/<\/configuration>/ s/.*/${escapedEntry}\n&/" $path
 }
 
 function configure() {
@@ -93,19 +93,19 @@ function wait_for_it()
     result=$?
 
     until [ $result -eq 0 ]; do
-      echo "[$i/$max_try] check for ${service}:${port}..."
-      echo "[$i/$max_try] ${service}:${port} is not available yet"
-      if (( $i == $max_try )); then
-        echo "[$i/$max_try] ${service}:${port} is still not available; giving up after ${max_try} tries. :/"
-        exit 1
-      fi
+        echo "[$i/$max_try] check for ${service}:${port}..."
+        echo "[$i/$max_try] ${service}:${port} is not available yet"
+        if (( $i == $max_try )); then
+            echo "[$i/$max_try] ${service}:${port} is still not available; giving up after ${max_try} tries. :/"
+            exit 1
+        fi
 
-      echo "[$i/$max_try] try in ${retry_seconds}s once again ..."
-      let "i++"
-      sleep $retry_seconds
+        echo "[$i/$max_try] try in ${retry_seconds}s once again ..."
+        let "i++"
+        sleep $retry_seconds
 
-      nc -z $service $port
-      result=$?
+        nc -z $service $port
+        result=$?
     done
     echo "[$i/$max_try] $service:${port} is available."
 }
