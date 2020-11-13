@@ -1,4 +1,4 @@
-FROM docker.jampp.com/hadoop-hive:hive-2.3.6-hadoop2.8.5-java8 as hive
+FROM docker.jampp.com/hadoop-hive:hive-2.3.6-hadoop-2.8.5-java8 as hive
 FROM apache/airflow:1.10.12
 
 LABEL com.jampp.maintainer="Data Infrastructure Team <data-infra@jampp.com>"
