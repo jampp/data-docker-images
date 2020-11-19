@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 datadir=`echo $HDFS_CONF_dfs_datanode_data_dir | perl -pe 's#file://##'`
 if [ ! -d $datadir ]; then
