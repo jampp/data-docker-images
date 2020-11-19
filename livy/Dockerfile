@@ -14,10 +14,6 @@ RUN apt-get update && apt-get install -y wget unzip && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-# Install dependencies for Wolfria's spark_cli
-RUN pip3 install toml jinja2 && \
-    pip3 install -U -i https://pypi.jampp.com/pypi datacommon[silver_client]
-
 # Copy the local config file to the container
 COPY ./livy.conf /src/livy/apache-livy-0.7.0-incubating-bin/conf/
 
