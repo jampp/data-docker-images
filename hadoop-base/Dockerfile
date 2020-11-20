@@ -1,15 +1,21 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-base
-# The following changes have been made:
-#
-# 1. Use openjdk:8-slim as base image
 
 FROM openjdk:8-slim
 
-LABEL com.jampp.maintainer="Data Infrastructure Team <data-infra@jampp.com>"
-LABEL com.jampp.description="Hadoop base image"
+ENV HADOOP_VERSION=2.8.5
+
+ARG BUILD_DATE
+ARG BUILD_VERSION
+
+LABEL org.opencontainers.image.description="Hadoop ${HADOOP_VERSION} base image"
+LABEL org.opencontainers.image.title="jampp.docker.com/hadoop-base"
+LABEL org.opencontainers.image.vendor="Jampp"
+LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
+LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
+LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.version=$BUILD_VERSION
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV HADOOP_VERSION=2.8.5
 
 RUN apt-get update && apt-get install -y --no-install-recommends net-tools curl netcat gnupg && \
 	apt-get clean && \
