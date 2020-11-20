@@ -18,9 +18,6 @@ LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
 LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.version=$BUILD_VERSION
 
-RUN echo ${HADOOP_BUILD_VERSION}
-RUN echo ${HADOOP_VERSION}
-
 ENV HIVE_HOME=/opt/hive
 ENV PATH=$HIVE_HOME/bin:$PATH
 ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION
