@@ -1,14 +1,22 @@
 #!/usr/bin/env bash
 
-AIRFLOW_COMMAND="${1}"
+case "${1}" in
 
-if [[ ${AIRFLOW_COMMAND} == "bash" ]]; then
-   shift
-   exec "/bin/bash" "${@}"
-elif [[ ${AIRFLOW_COMMAND} == "python" ]]; then
-   shift
-   exec "python" "${@}"
-fi
+    'bash')
+        shift
+        exec "/bin/bash" "${@}"
+    ;;
+    
+    'python')
+        shift
+        exec "python" "${@}"
+    ;;
+
+    *)
+        exec "${@}"
+    ;;
+
+esac
 
 set -eu
 
