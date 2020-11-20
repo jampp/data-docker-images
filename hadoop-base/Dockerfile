@@ -11,7 +11,9 @@ LABEL com.jampp.description="Hadoop base image"
 ARG DEBIAN_FRONTEND=noninteractive
 ENV HADOOP_VERSION=2.8.5
 
-RUN apt-get update && apt-get install -y --no-install-recommends net-tools curl netcat gnupg
+RUN apt-get update && apt-get install -y --no-install-recommends net-tools curl netcat gnupg && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 
 RUN curl -L https://dist.apache.org/repos/dist/release/hadoop/common/KEYS -o /tmp/KEYS && \
     gpg --import /tmp/KEYS

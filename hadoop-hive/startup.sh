@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 hadoop fs -mkdir       /tmp
 hadoop fs -mkdir -p    /user/hive/warehouse
