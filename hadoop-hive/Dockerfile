@@ -1,16 +1,25 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-hive
 
-FROM docker.jampp.com/hadoop-base:hadoop-2.8.5-java8
-
-LABEL com.jampp.maintainer="Data Infrastructure Team <data-infra@jampp.com>"
-LABEL com.jampp.description="Hive base image"
+FROM docker.jampp.com/hadoop-base:2.8.5
 
 ENV HADOOP_VERSION=2.8.5
 ENV HIVE_VERSION=2.3.6
-ENV JDBC_POSTGRES_VERSION=42.2.18
-
 # Version that works with minio
 ARG AWS_VERSION=1.11.534
+
+ARG BUILD_DATE
+ARG BUILD_VERSION
+
+LABEL org.opencontainers.image.description="Hive ${HIVE_VERSION} with Hadoop ${HADOOP_VERSION}"
+LABEL org.opencontainers.image.title="jampp.docker.com/hadoop-hive"
+LABEL org.opencontainers.image.vendor="Jampp"
+LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
+LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
+LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.version=$BUILD_VERSION
+
+RUN echo ${HADOOP_BUILD_VERSION}
+RUN echo ${HADOOP_VERSION}
 
 ENV HIVE_HOME=/opt/hive
 ENV PATH=$HIVE_HOME/bin:$PATH
@@ -18,6 +27,7 @@ ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION
 
 WORKDIR /opt
 
+ENV JDBC_POSTGRES_VERSION=42.2.18
 #Install Hive and PostgreSQL JDBC
 RUN apt-get update && apt-get install -y wget procps && \
 	wget https://archive.apache.org/dist/hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz && \
@@ -30,10 +40,10 @@ RUN apt-get update && apt-get install -y wget procps && \
 	rm -rf /var/lib/apt/lists/*
 
 # Install AWS jars  
-RUN curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_VERSION}/aws-java-sdk-${AWS_VERSION}.jar -o /opt/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/aws-java-sdk.jar && \
-curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-core/${AWS_VERSION}/aws-java-sdk-core-${AWS_VERSION}.jar -o /opt/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/aws-java-sdk-core.jar && \
-curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/${AWS_VERSION}/aws-java-sdk-s3-${AWS_VERSION}.jar -o /opt/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/aws-java-sdk-s3.jar && \
-curl -L https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar -o /opt/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/hadoop-aws.jar
+RUN curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_VERSION}/aws-java-sdk-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk.jar && \
+curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-core/${AWS_VERSION}/aws-java-sdk-core-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk-core.jar && \
+curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/${AWS_VERSION}/aws-java-sdk-s3-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk-s3.jar && \
+curl -L https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/hadoop-aws.jar
 
 #Custom configuration goes here
 ADD conf/hive-site.xml $HIVE_HOME/conf
