@@ -1,13 +1,24 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/bde2020/spark-base
 
-FROM docker.jampp.com/hadoop-hive:hive-2.3.6-hadoop-2.8.5-java8
-
-LABEL com.jampp.maintainer="Data Infrastructure Team <data-infra@jampp.com>"
-LABEL com.jampp.description="Spark base image"
+FROM docker.jampp.com/hadoop-hive:2.3.6
 
 ENV SPARK_VERSION=2.4.4
+ENV HADOOP_VERSION=2.8.5
+
+ARG BUILD_DATE
+ARG BUILD_VERSION
+
+LABEL org.opencontainers.image.description="Spark ${SPARK_VERSION} base image with Hadoop ${HADOOP_VERSION}"
+LABEL org.opencontainers.image.title="jampp.docker.com/spark-base"
+LABEL org.opencontainers.image.vendor="Jampp"
+LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
+LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
+LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.version=$BUILD_VERSION
+
 ENV SPARK_CONF_DIR=/spark/conf
 ENV SPARK_HOME=/opt/spark
+ENV HIVE_HOME=/opt/hive
 
 ENV ENABLE_INIT_DAEMON=true
 ENV INIT_DAEMON_BASE_URI=http://identifier/init-daemon
