@@ -1,9 +1,19 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-namenode
 
-FROM docker.jampp.com/hadoop-base:hadoop-2.8.5-java8
+FROM docker.jampp.com/hadoop-base:2.8.5
 
-LABEL com.jampp.maintainer="Data Infrastructure Team <data-infra@jampp.com>"
-LABEL com.jampp.description="Hadoop namenode image"
+ARG HADOOP_VERSION=2.8.5
+
+ARG BUILD_DATE
+ARG BUILD_VERSION
+
+LABEL org.opencontainers.image.description="Hadoop ${HADOOP_VERSION} namenode"
+LABEL org.opencontainers.image.title="jampp.docker.com/hadoop-namenode"
+LABEL org.opencontainers.image.vendor="Jampp"
+LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
+LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
+LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.version=$BUILD_VERSION
 
 HEALTHCHECK CMD curl -f http://localhost:50070/ || exit 1
 

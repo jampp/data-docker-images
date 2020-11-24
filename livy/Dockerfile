@@ -1,4 +1,18 @@
-FROM docker.jampp.com/spark-base:spark-2.4.4-hive-2.3.6-hadoop-2.8.5-java8
+FROM docker.jampp.com/spark-base:2.4.4
+
+ARG SPARK_VERSION=2.4.4
+ENV LIVY_VERSION=0.7.0-incubating
+
+ARG BUILD_DATE
+ARG BUILD_VERSION
+
+LABEL org.opencontainers.image.description="Livy ${LIVY_VERSION} with Spark ${SPARK_VERSION}"
+LABEL org.opencontainers.image.title="jampp.docker.com/livy"
+LABEL org.opencontainers.image.vendor="Jampp"
+LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
+LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
+LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.version=$BUILD_VERSION
 
 # Create folder for Livy source files
 RUN mkdir -p /src/livy
@@ -6,18 +20,18 @@ WORKDIR /src/livy
 
 # Download Livy source files
 RUN apt-get update && apt-get install -y wget unzip && \
-    wget https://downloads.apache.org/incubator/livy/0.7.0-incubating/apache-livy-0.7.0-incubating-bin.zip  && \
-    unzip apache-livy-0.7.0-incubating-bin.zip && \
-    rm apache-livy-0.7.0-incubating-bin.zip && \
+    wget https://downloads.apache.org/incubator/livy/${LIVY_VERSION}/apache-livy-${LIVY_VERSION}-bin.zip  && \
+    unzip apache-livy-${LIVY_VERSION}-bin.zip && \
+    rm apache-livy-${LIVY_VERSION}-bin.zip && \
     apt-get --purge remove -y wget unzip && \
     apt-get autoremove -y && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
 # Copy the local config file to the container
-COPY ./livy.conf /src/livy/apache-livy-0.7.0-incubating-bin/conf/
+COPY ./livy.conf /src/livy/apache-livy-${LIVY_VERSION}-bin/conf/
 
 # Set the Livy logs folder and start the server
 SHELL ["/bin/bash", "-c"]
-RUN mkdir -p /src/livy/apache-livy-0.7.0-incubating-bin/logs
-CMD ["/src/livy/apache-livy-0.7.0-incubating-bin/bin/livy-server"]
+RUN mkdir -p /src/livy/apache-livy-${LIVY_VERSION}-bin/logs
+CMD ["/src/livy/apache-livy-${LIVY_VERSION}-bin/bin/livy-server"]
