@@ -32,7 +32,10 @@ COPY --from=hive /opt/hadoop-${HADOOP_VERSION}   $HADOOP_HOME
 
 USER airflow
 
+RUN mkdir -p /opt/airflow/conf/ && \
+    touch /opt/airflow/conf/extra_connections.sh
+COPY ./conf/* /opt/airflow/conf/
 COPY ./entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["webserver", "-p", "8080"]
+CMD ["airflow", "webserver", "-p", "8080"]
