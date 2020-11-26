@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 airflow connections -d --conn_id hive_cli_default
 airflow connections -a --conn_id hive_cli_default --conn_type hive_cli --conn_host hive-server --conn_port 10000 --conn_schema default --conn_login hive --conn_extra "{\"use_beeline\": true, \"auth\": \"\"}"
 
