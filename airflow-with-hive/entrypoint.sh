@@ -7,7 +7,7 @@ init_airflow() {
     airflow variables -i "/opt/airflow/conf/variables.json"
 
     # Create connections
-    sh /opt/airflow/conf/connections.sh
+    /opt/airflow/conf/connections.sh
 
     # create execution pools
     airflow pool --set etl_tasks 1 'etl tasks pool'
