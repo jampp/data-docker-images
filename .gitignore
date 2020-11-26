@@ -6,5 +6,8 @@
 .python-version
 *.jar
 
+# Volumes:
+./data
+
 # Credentials files:
 ./airflow-with-hive/conf/credentials-dev.env
