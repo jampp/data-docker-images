@@ -1,1 +1,3 @@
-{}
+{
+    "test_var": "Override this file with your own variables file"
+}
