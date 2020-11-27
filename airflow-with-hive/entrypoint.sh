@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
+set -eu
+
 init_airflow() {
-    set -eu
     airflow initdb
     airflow scheduler &
     airflow variables -i "/opt/airflow/conf/variables.json"
