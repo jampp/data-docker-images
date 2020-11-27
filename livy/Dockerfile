@@ -1,7 +1,9 @@
-FROM docker.jampp.com/spark-base:2.4.4
-
 ARG SPARK_VERSION=2.4.4
-ENV LIVY_VERSION=0.7.0-incubating
+
+FROM spark-base:${SPARK_VERSION}
+
+ARG LIVY_VERSION=0.7.0-incubating
+ENV LIVY_VERSION=${LIVY_VERSION}
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
@@ -34,4 +36,4 @@ COPY ./livy.conf /src/livy/apache-livy-${LIVY_VERSION}-bin/conf/
 # Set the Livy logs folder and start the server
 SHELL ["/bin/bash", "-c"]
 RUN mkdir -p /src/livy/apache-livy-${LIVY_VERSION}-bin/logs
-CMD ["/src/livy/apache-livy-${LIVY_VERSION}-bin/bin/livy-server"]
+CMD ["sh", "-c", "/src/livy/apache-livy-${LIVY_VERSION}-bin/bin/livy-server"]

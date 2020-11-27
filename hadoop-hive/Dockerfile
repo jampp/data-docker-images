@@ -1,9 +1,11 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-hive
 
-FROM docker.jampp.com/hadoop-base:2.8.5
+ARG HADOOP_VERSION=2.8.5
 
-ENV HADOOP_VERSION=2.8.5
-ENV HIVE_VERSION=2.3.6
+FROM hadoop-base:${HADOOP_VERSION}
+
+ARG HADOOP_VERSION=2.8.5
+ARG HIVE_VERSION=2.3.6
 # Version that works with minio
 ARG AWS_VERSION=1.11.534
 
@@ -20,7 +22,7 @@ LABEL org.opencontainers.image.version=$BUILD_VERSION
 
 ENV HIVE_HOME=/opt/hive
 ENV PATH=$HIVE_HOME/bin:$PATH
-ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION
+ENV HADOOP_HOME=/opt/hadoop-${HADOOP_VERSION}
 
 WORKDIR /opt
 
