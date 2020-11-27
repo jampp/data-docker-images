@@ -1,0 +1,4 @@
+# Lines with # are ignored
+test.company.com
+test2.company.com
+test3.company.com

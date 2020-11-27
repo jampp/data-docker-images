@@ -140,11 +140,16 @@ services:
       - minio
     networks:
       - default
+    environment: 
+      - MINIO_ACCESS_KEY=minio_user
+      - MINIO_SECRET_KEY=minio_key
+      - MINIO_HOST=http://minio:9000
     volumes:
       - ./minio/create_buckets.sh:/create_buckets.sh
       # Override this with your own bucket list:
-      - ./minio/buckets.sh:/buckets.sh
-    entrypoint: ["chmod", "+x", "/create_buckets.sh"]
+      - ./minio/buckets.txt:/buckets.txt
+    entrypoint: sh
+    command: -c '/create_buckets.sh'
 
   migratron:
     image: docker.jampp.com/migratron:2.1.0

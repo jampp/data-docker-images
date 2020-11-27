@@ -1,15 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-source ./migration_paths.sh
+/usr/bin/mc config host add myminio $MINIO_HOST $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
 
-/usr/bin/mc config host add myminio http://minio:9000 minio_user minio_key;
+echo "Creating MinIO buckets..."
+grep -v "#" buckets.txt | while read b; do
+    echo "$b"
+    /usr/bin/mc mb myminio/$b
+done
 
-if [ ${#BUCKETS[@]} -eq 0 ]; then
-    echo "\$BUCKETS is empty."
-else
-    echo "Creating MinIO buckets..."
-    for b in "${BUCKETS[@]}"
-    do
-        /usr/bin/mc mb myminio/${b}
-    done
-fi
