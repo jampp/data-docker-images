@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
+set -eu
+
 init_airflow() {
-    set -eu
     airflow initdb
     airflow scheduler &
     airflow variables -i "/opt/airflow/conf/variables.json"
 
     # Create connections
-    sh /opt/airflow/conf/connections.sh
+    /opt/airflow/conf/connections.sh
 
     # create execution pools
     airflow pool --set etl_tasks 1 'etl tasks pool'
