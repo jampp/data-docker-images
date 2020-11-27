@@ -25,6 +25,7 @@ ENV PATH=${HIVE_HOME}/bin:${PATH}
 
 USER root
 
+# Install jq for creating connections from json files
 RUN apt-get update && \
     apt-get install -y jq && \
     apt-get autoremove -y && \
