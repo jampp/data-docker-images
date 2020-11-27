@@ -2,6 +2,7 @@ version: "3"
 
 services:
   airflow:
+    build: ./airflow-with-hive/
     image: docker.jampp.com/airflow-hive:1.10.12
     volumes:
       - ./airflow-with-hive/conf:/opt/airflow/conf/
@@ -31,6 +32,7 @@ services:
     restart: always
 
   livy:
+    build: ./livy/
     image: docker.jampp.com/livy:0.7.0-incubating
     ports:
       - "8998:8998"
@@ -39,6 +41,7 @@ services:
       - default
 
   namenode:
+    build: ./hadoop-namenode/
     image: docker.jampp.com/hadoop-namenode:2.8.5
     volumes:
       - ./data/namenode:/hadoop/dfs/name
@@ -52,6 +55,7 @@ services:
       - default
 
   datanode:
+    build: ./hadoop-datanode/
     image: docker.jampp.com/hadoop-datanode:2.8.5
     volumes:
       - ./data/datanode:/hadoop/dfs/data
@@ -65,8 +69,8 @@ services:
       - default
 
   hive-server:
+    build: ./hadoop-hive/
     image: docker.jampp.com/hadoop-hive:2.3.6
-    container_name: hive-server
     env_file:
       - ./hadoop-hive/hadoop-hive.env
     environment:
@@ -80,6 +84,7 @@ services:
       - default
 
   hive-metastore:
+    build: ./hadoop-hive/
     image: docker.jampp.com/hadoop-hive:2.3.6
     env_file:
       - ./hadoop-hive/hadoop-hive.env
@@ -139,7 +144,7 @@ services:
       - ./minio/create_buckets.sh:/create_buckets.sh
       # Override this with your own bucket list:
       - ./minio/buckets.sh:/buckets.sh
-    entrypoint: /create_buckets.sh
+    entrypoint: ["chmod", "+x", "/create_buckets.sh"]
 
   migratron:
     image: docker.jampp.com/migratron:2.1.0
@@ -155,7 +160,7 @@ services:
       - ./migratron/run_migrations.sh:/run_migrations.sh
       # Override this with your own migration paths:
       - ./migratron/migration_paths.sh:/migration_paths.sh
-    entrypoint: /run_migrations.sh
+    entrypoint: ["chmod", "+x", "/run_migrations.sh"]
 
 
 networks:
