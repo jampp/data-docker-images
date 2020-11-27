@@ -5,7 +5,7 @@ services:
     build: ./airflow-with-hive/
     image: docker.jampp.com/airflow-hive:1.10.12
     volumes:
-      - ./airflow-with-hive/conf:/opt/airflow/conf/
+      - ./airflow-with-hive/conf:/home/airflow/conf/
       # Mount these for interactive editing:
       # - ./dags:/opt/airflow/dags
       # - ./plugins:/opt/airflow/plugins
@@ -13,9 +13,9 @@ services:
       # Override this with your credentials for external services:
       - ./airflow-with-hive/conf/credentials-dev.env
     environment:
-      S3_ACCESS_KEY: minio_user
-      S3_SECRET_KEY: minio_key
-      S3_ENDPOINT: "http://minio:9000"
+      S3_ACCESS_KEY: $MINIO_ACCESS_KEY
+      S3_SECRET_KEY: $MINIO_SECRET_KEY
+      S3_ENDPOINT: $MINIO_HOST
       AIRFLOW__SCHEDULER__STATSD_ON: "True"
       AIRFLOW__SCHEDULER__STATSD_HOST: metrics
       AIRFLOW__SCHEDULER__STATSD_PREFIX: airflow
@@ -46,7 +46,7 @@ services:
     volumes:
       - ./data/namenode:/hadoop/dfs/name
     environment:
-      - CLUSTER_NAME=test
+      CLUSTER_NAME: test
     env_file:
       - ./hadoop-hive/hadoop-hive.env
     ports:
@@ -109,9 +109,9 @@ services:
     image: prestosql/presto:346
     restart: always
     environment:
-      S3_ACCESS_KEY: minio_user
-      S3_SECRET_KEY: minio_key
-      S3_ENDPOINT: "http://minio:9000"
+      S3_ACCESS_KEY: $MINIO_ACCESS_KEY
+      S3_SECRET_KEY: $MINIO_SECRET_KEY
+      S3_ENDPOINT: $MINIO_HOST
     volumes:
       - ./presto/conf:/usr/lib/presto/etc
     ports:
@@ -124,13 +124,13 @@ services:
     entrypoint: sh
     command: -c '/usr/bin/minio server /data'
     environment:
-      - MINIO_ACCESS_KEY=minio_user
-      - MINIO_SECRET_KEY=minio_key
+      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
+      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
     volumes:
       - ./data/minio/data:/data
       - ./data/minio/config:/root/.minio
     ports:
-      - "9000:9000"
+      - "${MINIO_PORT}:9000"
     networks:
       - default
 
@@ -141,9 +141,9 @@ services:
     networks:
       - default
     environment: 
-      - MINIO_ACCESS_KEY=minio_user
-      - MINIO_SECRET_KEY=minio_key
-      - MINIO_HOST=http://minio:9000
+      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
+      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
+      MINIO_HOST: $MINIO_HOST
     volumes:
       - ./minio/create_buckets.sh:/create_buckets.sh
       # Override this with your own bucket list:
