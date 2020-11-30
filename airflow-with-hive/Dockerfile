@@ -25,6 +25,13 @@ ENV PATH=${HIVE_HOME}/bin:${PATH}
 
 USER root
 
+# Install jq for creating connections from json files
+RUN apt-get update && \
+    apt-get install -y jq && \
+    apt-get autoremove -y && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
+
 # Copy resources from other layers
 COPY --from=hive $JAVA_HOME          $JAVA_HOME
 COPY --from=hive /opt/hive           $HIVE_HOME
@@ -32,10 +39,10 @@ COPY --from=hive /opt/hadoop-${HADOOP_VERSION}   $HADOOP_HOME
 
 USER airflow
 
-RUN mkdir -p /opt/airflow/conf/ && \
-    touch /opt/airflow/conf/extra_connections.sh
-COPY ./conf/* /opt/airflow/conf/
+ENV CONFIG_FILES_PATH=/home/airflow/conf
+COPY ./conf/* ${CONFIG_FILES_PATH}/ 
 COPY ./entrypoint.sh /entrypoint.sh
+
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["airflow", "webserver", "-p", "8080"]

@@ -34,4 +34,4 @@ COPY ./livy.conf /src/livy/apache-livy-${LIVY_VERSION}-bin/conf/
 # Set the Livy logs folder and start the server
 SHELL ["/bin/bash", "-c"]
 RUN mkdir -p /src/livy/apache-livy-${LIVY_VERSION}-bin/logs
-CMD ["/src/livy/apache-livy-${LIVY_VERSION}-bin/bin/livy-server"]
+CMD ["sh", "-c", "/src/livy/apache-livy-${LIVY_VERSION}-bin/bin/livy-server"]

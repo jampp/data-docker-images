@@ -1,0 +1,11 @@
+{
+    "test_pool_1": { 
+        "description": "Placeholder pools json",
+        "slots": 5 
+    }
+    ,
+    "test_pool_2": { 
+        "description": "Override this file with your own pools file",
+        "slots": 5 
+    }
+}
