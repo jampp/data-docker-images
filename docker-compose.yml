@@ -140,10 +140,6 @@ services:
       - minio
     networks:
       - default
-    environment: 
-      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
-      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
-      MINIO_HOST: $MINIO_HOST
     volumes:
       - ./minio/create_buckets.sh:/create_buckets.sh
       # Override this with your own bucket list:
