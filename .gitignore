@@ -5,3 +5,6 @@
 .metals
 .python-version
 *.jar
+
+# Credentials files:
+./airflow-with-hive/conf/credentials-dev.env
