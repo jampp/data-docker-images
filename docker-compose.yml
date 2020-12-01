@@ -48,7 +48,7 @@ services:
     environment:
       CLUSTER_NAME: test
     env_file:
-      - ./hadoop-hive/hadoop-hive.env
+      - ./hive/hadoop-hive.env
     ports:
       - "50070:50070"
     networks:
@@ -60,7 +60,7 @@ services:
     volumes:
       - ./data/datanode:/hadoop/dfs/data
     env_file:
-      - ./hadoop-hive/hadoop-hive.env
+      - ./hive/hadoop-hive.env
     environment:
       SERVICE_PRECONDITION: "namenode:50070"
     ports:
@@ -69,10 +69,10 @@ services:
       - default
 
   hive-server:
-    build: ./hadoop-hive/
-    image: docker.jampp.com/hadoop-hive:2.3.6
+    build: ./hive/
+    image: docker.jampp.com/hive:2.3.6
     env_file:
-      - ./hadoop-hive/hadoop-hive.env
+      - ./hive/hadoop-hive.env
     environment:
       HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
       SERVICE_PRECONDITION: "hive-metastore:9083"
@@ -84,10 +84,10 @@ services:
       - default
 
   hive-metastore:
-    build: ./hadoop-hive/
-    image: docker.jampp.com/hadoop-hive:2.3.6
+    build: ./hive/
+    image: docker.jampp.com/hive:2.3.6
     env_file:
-      - ./hadoop-hive/hadoop-hive.env
+      - ./hive/hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
     environment:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"

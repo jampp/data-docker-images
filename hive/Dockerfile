@@ -13,7 +13,7 @@ ARG BUILD_DATE
 ARG BUILD_VERSION
 
 LABEL org.opencontainers.image.description="Hive ${HIVE_VERSION} with Hadoop ${HADOOP_VERSION}"
-LABEL org.opencontainers.image.title="jampp.docker.com/hadoop-hive"
+LABEL org.opencontainers.image.title="jampp.docker.com/hive"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
