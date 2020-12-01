@@ -10,4 +10,4 @@
 data/
 
 # Credentials files:
-./airflow-with-hive/conf/credentials-dev.env
+./airflow/conf/credentials-dev.env
