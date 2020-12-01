@@ -1,9 +1,11 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/bde2020/spark-base
 
-FROM docker.jampp.com/hadoop-hive:2.3.6
+ARG HIVE_VERSION=2.3.6
 
-ENV SPARK_VERSION=2.4.4
-ENV HADOOP_VERSION=2.8.5
+FROM hadoop-hive:${HIVE_VERSION}
+
+ARG SPARK_VERSION=2.4.4
+ARG HADOOP_VERSION=2.8.5
 
 ARG BUILD_DATE
 ARG BUILD_VERSION

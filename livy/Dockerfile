@@ -1,7 +1,9 @@
-FROM docker.jampp.com/spark-base:2.4.4
-
 ARG SPARK_VERSION=2.4.4
-ENV LIVY_VERSION=0.7.0-incubating
+
+FROM spark-base:${SPARK_VERSION}
+
+ARG LIVY_VERSION=0.7.0-incubating
+ENV LIVY_VERSION=${LIVY_VERSION}
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
