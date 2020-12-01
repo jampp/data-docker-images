@@ -1,4 +1,4 @@
-FROM docker.jampp.com/hive:2.3.6 as hive
+FROM jampp/hive:2.3.6 as hive
 FROM apache/airflow:1.10.12
 
 ENV AIRFLOW_VERSION=1.10.12
