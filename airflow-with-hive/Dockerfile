@@ -40,9 +40,8 @@ COPY --from=hive /opt/hadoop-${HADOOP_VERSION}   $HADOOP_HOME
 USER airflow
 
 ENV CONFIG_FILES_PATH=/home/airflow/conf
-COPY ./conf/* ${CONFIG_FILES_PATH}/ 
+COPY ./conf/*.json ${CONFIG_FILES_PATH}/ 
 COPY ./entrypoint.sh /entrypoint.sh
-
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["airflow", "webserver", "-p", "8080"]
