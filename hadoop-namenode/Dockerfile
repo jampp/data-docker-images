@@ -1,6 +1,6 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-namenode
 
-FROM docker.jampp.com/hadoop-base:2.8.5
+FROM docker.jampp.com/hadoop:2.8.5
 
 ARG HADOOP_VERSION=2.8.5
 
