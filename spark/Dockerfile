@@ -11,7 +11,7 @@ ARG BUILD_DATE
 ARG BUILD_VERSION
 
 LABEL org.opencontainers.image.description="Spark ${SPARK_VERSION} base image with Hadoop ${HADOOP_VERSION}"
-LABEL org.opencontainers.image.title="jampp.docker.com/spark-base"
+LABEL org.opencontainers.image.title="jampp.docker.com/spark"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
