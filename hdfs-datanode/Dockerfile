@@ -8,7 +8,7 @@ ARG BUILD_DATE
 ARG BUILD_VERSION
 
 LABEL org.opencontainers.image.description="Hadoop ${HADOOP_VERSION} datanode"
-LABEL org.opencontainers.image.title="jampp.docker.com/hadoop-datanode"
+LABEL org.opencontainers.image.title="jampp.docker.com/hdfs-datanode"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"

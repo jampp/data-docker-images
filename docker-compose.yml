@@ -55,8 +55,8 @@ services:
       - default
 
   datanode:
-    build: ./hadoop-datanode/
-    image: docker.jampp.com/hadoop-datanode:2.8.5
+    build: ./hdfs-datanode/
+    image: docker.jampp.com/hdfs-datanode:2.8.5
     volumes:
       - ./data/datanode:/hadoop/dfs/data
     env_file:
