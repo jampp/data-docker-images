@@ -1,14 +1,15 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-datanode
 
-FROM jampp/hadoop:2.8.5
-
 ARG HADOOP_VERSION=2.8.5
 
+FROM jampp/hadoop:${HADOOP_VERSION}
+
+ARG HADOOP_VERSION
 ARG BUILD_DATE
 ARG BUILD_VERSION
 
 LABEL org.opencontainers.image.description="Hadoop ${HADOOP_VERSION} datanode"
-LABEL org.opencontainers.image.title="jampp.docker.com/hdfs-datanode"
+LABEL org.opencontainers.image.title="jampp/hdfs-datanode"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"

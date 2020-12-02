@@ -1,15 +1,18 @@
-FROM jampp/hive:2.3.6 as hive
-FROM apache/airflow:1.10.12
+ARG AIRFLOW_VERSION=1.10.12
+ARG HIVE_VERSION=2.3.6
 
-ENV AIRFLOW_VERSION=1.10.12
-ENV HIVE_VERSION=2.3.6
+FROM jampp/hive:${HIVE_VERSION} as hive
+FROM apache/airflow:${AIRFLOW_VERSION}
+
+ENV AIRFLOW_VERSION=${AIRFLOW_VERSION}
+ENV HIVE_VERSION=${HIVE_VERSION}
 ENV HADOOP_VERSION=2.8.5
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
 
 LABEL org.opencontainers.image.description="Airflow ${AIRFLOW_VERSION} base image with Hive ${HIVE_VERSION}"
-LABEL org.opencontainers.image.title="jampp.docker.com/airflow"
+LABEL org.opencontainers.image.title="jampp/airflow"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
