@@ -5,7 +5,7 @@ services:
     build: ./airflow-with-hive/
     image: docker.jampp.com/airflow-hive:1.10.12
     volumes:
-      - ./airflow-with-hive/conf:/home/airflow/conf/
+      - ./airflow-with-hive/conf:/home/airflow/conf
       # Mount these for interactive editing:
       # - ./dags:/opt/airflow/dags
       # - ./plugins:/opt/airflow/plugins
