@@ -2,16 +2,16 @@ version: "3"
 
 services:
   airflow:
-    build: ./airflow-with-hive/
-    image: docker.jampp.com/airflow-hive:1.10.12
+    build: ./airflow/
+    image: jampp/airflow:1.10.12-hive-2.3.6
     volumes:
-      - ./airflow-with-hive/conf:/home/airflow/conf
+      - ./airflow/conf:/home/airflow/conf/
       # Mount these for interactive editing:
       # - ./dags:/opt/airflow/dags
       # - ./plugins:/opt/airflow/plugins
     env_file:
       # Override this with your credentials for external services:
-      - ./airflow-with-hive/conf/credentials-dev.env
+      - ./airflow/conf/credentials-dev.env
     environment:
       S3_ACCESS_KEY: $MINIO_ACCESS_KEY
       S3_SECRET_KEY: $MINIO_SECRET_KEY
@@ -33,7 +33,7 @@ services:
 
   livy:
     build: ./livy/
-    image: docker.jampp.com/livy:0.7.0-incubating
+    image: jampp/livy:0.7.0-incubating
     ports:
       - "8998:8998"
     restart: always
@@ -41,26 +41,26 @@ services:
       - default
 
   namenode:
-    build: ./hadoop-namenode/
-    image: docker.jampp.com/hadoop-namenode:2.8.5
+    build: ./hdfs-namenode/
+    image: jampp/hdfs-namenode:2.8.5
     volumes:
       - ./data/namenode:/hadoop/dfs/name
     environment:
       CLUSTER_NAME: test
     env_file:
-      - ./hadoop-hive/hadoop-hive.env
+      - ./hive/hadoop-hive.env
     ports:
       - "50070:50070"
     networks:
       - default
 
   datanode:
-    build: ./hadoop-datanode/
-    image: docker.jampp.com/hadoop-datanode:2.8.5
+    build: ./hdfs-datanode/
+    image: jampp/hdfs-datanode:2.8.5
     volumes:
       - ./data/datanode:/hadoop/dfs/data
     env_file:
-      - ./hadoop-hive/hadoop-hive.env
+      - ./hive/hadoop-hive.env
     environment:
       SERVICE_PRECONDITION: "namenode:50070"
     ports:
@@ -69,10 +69,10 @@ services:
       - default
 
   hive-server:
-    build: ./hadoop-hive/
-    image: docker.jampp.com/hadoop-hive:2.3.6
+    build: ./hive/
+    image: jampp/hive:2.3.6
     env_file:
-      - ./hadoop-hive/hadoop-hive.env
+      - ./hive/hadoop-hive.env
     environment:
       HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
       SERVICE_PRECONDITION: "hive-metastore:9083"
@@ -84,10 +84,10 @@ services:
       - default
 
   hive-metastore:
-    build: ./hadoop-hive/
-    image: docker.jampp.com/hadoop-hive:2.3.6
+    build: ./hive/
+    image: jampp/hive:2.3.6
     env_file:
-      - ./hadoop-hive/hadoop-hive.env
+      - ./hive/hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
     environment:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
@@ -148,7 +148,7 @@ services:
     command: -c '/create_buckets.sh'
 
   migratron:
-    image: docker.jampp.com/migratron:2.1.0
+    image: jampp/migratron:2.1.0
     depends_on:
       - minio
       - hive-metastore-postgresql

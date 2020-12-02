@@ -1,15 +1,16 @@
 ARG SPARK_VERSION=2.4.4
 
-FROM spark-base:${SPARK_VERSION}
+FROM jampp/spark:${SPARK_VERSION}
 
 ARG LIVY_VERSION=0.7.0-incubating
 ENV LIVY_VERSION=${LIVY_VERSION}
+ARG SPARK_VERSION
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
 
 LABEL org.opencontainers.image.description="Livy ${LIVY_VERSION} with Spark ${SPARK_VERSION}"
-LABEL org.opencontainers.image.title="jampp.docker.com/livy"
+LABEL org.opencontainers.image.title="jampp/livy"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
