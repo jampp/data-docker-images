@@ -13,6 +13,8 @@ services:
       # Override this with your credentials for external services:
       - ./airflow/conf/credentials-dev.env
     environment:
+      AWS_ACCESS_KEY_ID: $MINIO_ACCESS_KEY
+      AWS_SECRET_ACCESS_KEY: $MINIO_SECRET_KEY
       S3_ACCESS_KEY: $MINIO_ACCESS_KEY
       S3_SECRET_KEY: $MINIO_SECRET_KEY
       S3_ENDPOINT: $MINIO_HOST
@@ -130,7 +132,7 @@ services:
       - ./data/minio/data:/data
       - ./data/minio/config:/root/.minio
     ports:
-      - "${MINIO_PORT}:9000"
+      - "9000:9000"
     networks:
       - default
 
@@ -144,6 +146,10 @@ services:
       - ./minio/create_buckets.sh:/create_buckets.sh
       # Override this with your own bucket list:
       - ./minio/buckets.txt:/buckets.txt
+    environment: 
+      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
+      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
+      MINIO_HOST: $MINIO_HOST
     entrypoint: sh
     command: -c '/create_buckets.sh'
 
@@ -157,11 +163,12 @@ services:
     networks:
       - default
     volumes:
-      - ./data/db:/db
       - ./migratron/run_migrations.sh:/run_migrations.sh
       # Override this with your own migration paths:
       - ./migratron/migration_paths.sh:/migration_paths.sh
-    entrypoint: ["chmod", "+x", "/run_migrations.sh"]
+      # Override with your migrations directory
+      - ./data/db:/db
+    entrypoint: ["sh", "-c", "/run_migrations.sh"]
 
 
 networks:

@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+set -eu
+
 # Get paths to migration files
 source ./migration_paths.sh
 
 if [ -z "$BASE_SCHEMA_PATH" ]; then
     echo "\$BASE_SCHEMA_PATH is empty."
 else
+    echo "Initializing base schema at ${BASE_SCHEMA_PATH}"
     migratron initialize \
         --just-base-schema \
         --state-db-uri "postgres://hive:hive@hive-metastore-postgresql/metastore" \
