@@ -79,6 +79,10 @@ services:
       HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
       SERVICE_PRECONDITION: "hive-metastore:9083"
       HADOOP_CLASSPATH: "/opt/hadoop-2.8.5/share/hadoop/tools/lib/*"
+    volumes:
+      - ./scripts/create_partitions/create_partitions.sh:/create_partitions.sh
+      # Override this with your own file paths to downdload:
+      - ./scripts/create_partitions/table_names.sh:/table_names.sh
     ports:
       - "10000:10000"
       - "8088:8088"
@@ -131,6 +135,9 @@ services:
     volumes:
       - ./data/minio/data:/data
       - ./data/minio/config:/root/.minio
+      - ./scripts/download_s3_data/download_s3_data.sh:/download_s3_data.sh
+      # Override this with your own file paths to downdload:
+      - ./scripts/download_s3_data/file_paths.sh:/file_paths.sh
     ports:
       - "9000:9000"
     networks:
@@ -170,6 +177,37 @@ services:
       - ./data/db:/db
     entrypoint: ["sh", "-c", "/run_migrations.sh"]
 
+  download_s3_data:
+    image: minio/mc:latest
+    environment: 
+      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
+      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
+      MINIO_HOST: $MINIO_HOST
+      S3_ACCESS_KEY: $S3_ACCESS_KEY
+      S3_SECRET_KEY: $S3_SECRET_KEY
+      S3_HOST: $S3_HOST
+    depends_on:
+    - minio
+    networks: 
+      - default
+    volumes:
+      - ./scripts/download_s3_data/download_s3_data.sh:/download_s3_data.sh
+      # Override this with your own file paths to downdload:
+      - ./scripts/download_s3_data/file_paths.sh:/file_paths.sh
+    entrypoint: /download_s3_data.sh
+
+  create_partitions:
+    image: jampp/hive:2.3.6
+    depends_on:
+    - hive-server    
+    networks: 
+      - default
+    volumes:
+      - ./scripts/create_partitions/create_partitions.sh:/create_partitions.sh
+      # Override this with your own table names to repair:
+      - ./scripts/create_partitions/table_names.sh:/opt/table_names.sh
+    entrypoint: /create_partitions.sh
+    
 
 networks:
   default:
