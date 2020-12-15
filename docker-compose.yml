@@ -79,10 +79,6 @@ services:
       HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
       SERVICE_PRECONDITION: "hive-metastore:9083"
       HADOOP_CLASSPATH: "/opt/hadoop-2.8.5/share/hadoop/tools/lib/*"
-    volumes:
-      - ./scripts/create_partitions/create_partitions.sh:/create_partitions.sh
-      # Override this with your own file paths to downdload:
-      - ./scripts/create_partitions/table_names.sh:/table_names.sh
     ports:
       - "10000:10000"
       - "8088:8088"
@@ -135,9 +131,6 @@ services:
     volumes:
       - ./data/minio/data:/data
       - ./data/minio/config:/root/.minio
-      - ./scripts/download_s3_data/download_s3_data.sh:/download_s3_data.sh
-      # Override this with your own file paths to downdload:
-      - ./scripts/download_s3_data/file_paths.sh:/file_paths.sh
     ports:
       - "9000:9000"
     networks:
