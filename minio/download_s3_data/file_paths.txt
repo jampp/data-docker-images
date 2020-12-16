@@ -1,0 +1,8 @@
+# List of file paths to download from s3, with the following format:
+# bucket/path/to/file
+# Lines with '#' are ignored.
+
+#bucket1/path/to/file1
+#bucket1/path/to/file2
+#bucket2/path/to/file1
+#bucket2/path/to/file2

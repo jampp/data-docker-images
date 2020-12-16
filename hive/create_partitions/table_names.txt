@@ -1,9 +1,8 @@
+# List of Hive tables to repair, with the following format:
+# <schema>.<table>
+# Lines with '#' are ignored.
+ 
 #schema1.table1
 #schema1.table2
 #schema2.table1
 #schema2.table2
-
-
-# It should include the schema, and the file should have
-# only the lines that will be used
-

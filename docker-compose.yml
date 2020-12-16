@@ -186,7 +186,7 @@ services:
     volumes:
       - ./minio/download_s3_data/download_s3_data.sh:/download_s3_data.sh
       # Override this with your own file paths to downdload:
-      - ./minio/download_s3_data/file_paths.sh:/file_paths.sh
+      - ./minio/download_s3_data/file_paths.sh:/file_paths.txt
     entrypoint: /download_s3_data.sh
 
   create_partitions:
@@ -198,7 +198,7 @@ services:
     volumes:
       - ./hive/create_partitions/create_partitions.sh:/create_partitions.sh
       # Override this with your own table names to repair:
-      - ./hive/create_partitions/table_names.sh:/opt/table_names.sh
+      - ./hive/create_partitions/table_names.sh:/opt/table_names.txt
     entrypoint: /create_partitions.sh
     
 
