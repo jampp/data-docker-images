@@ -10,3 +10,8 @@ The connection to MinIO in particular, is found in the [hadoop-hive.env](./hadoo
 ## Running queries
 
 To connect to the Hive Server service in the container and perform queries, run the [beeline.sh](./beeline.sh) script.
+
+## Creating partitions in bulk
+
+Once the data is downloaded/created in MinIO, set the tables that you want to have partitions inserted in 
+[table_names.txt](./create_partitions/table_names.txt) and then run the [create_partitions](../docker-compose.yml#create_partitions) service.

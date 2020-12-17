@@ -22,7 +22,7 @@ You can change the access and secret keys there and the changes will automatical
 
 Buckets can be created manually through the UI or programatically through the [MinIO client](https://hub.docker.com/r/minio/mc) and AWS CLI.
 
-This project provides automatic bucket creation through the `create_buckets` Docker service, which uses the [script](./create_buckets.sh) and [txt file](buckets.sh) found in this folder.
+This project provides automatic bucket creation through the `create_buckets` Docker service, which uses the [script](./create_buckets.sh) and [txt file](buckets.txt) found in this folder.
 
 Overriding the [buckets.txt](./buckets.txt) file in your `docker-compose.override.yml` with your own buckets' names will automatically create them when `docker-compose up` is run.
 
@@ -33,3 +33,12 @@ By default, MinIO's buckets and data are stored in [data-docker-images/data/mini
 Adding files to the buckets in that folder will immediatelly make them available inside the container.
 
 Data will persist in the volumes through different executions of the container, so you'll need to delete the folders between runs if you don't want that to happen.
+
+
+## Downloading S3 data
+
+Data can be downloaded and inserted manually through through the [MinIO client](https://hub.docker.com/r/minio/mc) and AWS CLI.
+
+If the purpose of local MinIO is replicating production structure, this project has a automation for downloading s3 data and insert into local buckets. This Docker service is called `downloading_s3_data`, which uses the [script](./download_s3_data/download_s3_data.sh) and [txt file](./download_s3_data/file_paths.txt) found in this folder.
+
+Overriding the [file_paths.txt](./download_s3_data/file_paths.txt) file in your `docker-compose.override.yml` with your own file_paths, the service will automatically reproduce them locally when `docker-compose up` is run.
