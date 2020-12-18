@@ -13,5 +13,5 @@ To connect to the Hive Server service in the container and perform queries, run 
 
 ## Creating partitions in bulk
 
-Once the data is downloaded/created in MinIO, set the tables that you want to have partitions inserted in 
-[table_names.txt](./create_partitions/table_names.txt) and then run the [create_partitions](../docker-compose.yml#create_partitions) service.
+For this service to work is expected that data has been already downloaded to MinIO, it is possible to do it manually, but this project has a way automate that with [download_s3_data](../minio/download_s3_data/download_s3_data.sh). Check [MinIO](../minio/README.md) section for more information on how to do it.
+Now, once the data is downloaded/created in MinIO, set the tables that you want to have partitions inserted in [table_names.txt](./create_partitions/table_names.txt) and then run the [create_partitions](../docker-compose.yml#create_partitions) service.

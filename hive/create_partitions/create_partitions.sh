@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-
-set -eu
-
+HIVE_QUERY=""
 echo "Creating partitions..."
-grep -v -e "#" -e "^$" table_names.txt | while read b; do
-    export HIVE_COMMAND="$HIVE_COMMAND MSCK REPAIR TABLE $p;"
+
+for b in $(grep -v -e "#" -e "^$" table_names.txt);
+do
+    HIVE_QUERY="$HIVE_QUERY MSCK REPAIR TABLE $b;"
 done
 
-/opt/hive/bin/beeline -u jdbc:hive2://hive-server:10000 -e "$HIVE_COMMAND;"
+echo "Query that will be executed: $HIVE_QUERY"
+
+/opt/hive/bin/beeline -u jdbc:hive2://hive-server:10000 -e "$HIVE_QUERY;"
