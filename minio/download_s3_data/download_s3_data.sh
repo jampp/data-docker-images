@@ -4,6 +4,6 @@
 /usr/bin/mc alias set minio $MINIO_HOST $MINIO_ACCESS_KEY $MINIO_SECRET_KEY;
 
 echo "Downloading data..."
-grep -v -e "#" -e "^$" file_paths.txt | while read b; do
-    /usr/bin/mc cp s3/$b minio/$b
+grep -v -e "#" -e "^$" file_paths.txt | while read p; do
+    /usr/bin/mc cp s3/$p minio/$p
 done
