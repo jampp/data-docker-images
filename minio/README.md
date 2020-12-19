@@ -37,8 +37,4 @@ Data will persist in the volumes through different executions of the container, 
 
 ## Downloading S3 data
 
-Data can be downloaded and inserted manually through through the [MinIO client](https://hub.docker.com/r/minio/mc) and AWS CLI.
-
-If the purpose of local MinIO is replicating production structure, this project has a automation for downloading s3 data and insert into local buckets. This Docker service is called `downloading_s3_data`, which uses the [script](./download_s3_data/download_s3_data.sh) and [txt file](./download_s3_data/file_paths.txt) found in this folder.
-
-Overriding the [file_paths.txt](./download_s3_data/file_paths.txt) file in your `docker-compose.override.yml` with your own file_paths, the service will automatically reproduce them locally when `docker-compose up` is run.
+For automating MinIO's population with data, you can use the `download_s3_data` service, which will download files from the paths specified in [this file](./download_s3_data/file_paths.txt) and insert them into MinIO.
