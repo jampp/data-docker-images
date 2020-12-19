@@ -13,5 +13,9 @@ To connect to the Hive Server service in the container and perform queries, run 
 
 ## Creating partitions in bulk
 
-For this service to work is expected that data has been already downloaded to MinIO, it is possible to do it manually, but this project has a way automate that with [download_s3_data](../minio/download_s3_data/download_s3_data.sh). Check [MinIO](../minio/README.md) section for more information on how to do it.
-Now, once the data is downloaded/created in MinIO, set the tables that you want to have partitions inserted in [table_names.txt](./create_partitions/table_names.txt) and then run the [create_partitions](../docker-compose.yml#create_partitions) service.
+If you have a Hive External Table (with its data stored in the [MinIO volume](../minio/README.md#volumes)) before being able to query that data you'll need to create the corresponding partitions.
+
+This can be done automatically with [create_partitions](../docker-compose.yml#create_partitions) service.
+
+This service will perform an `MSCK repair table` command on every table listed in  [table_names.txt](./create_partitions/table_names.txt).
+To take advantage of this, it's recommended that you override the `table_names.txt` file with one that includes your tables (see [this section on overriding](../README.md#using-with-other-projects)).
