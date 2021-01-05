@@ -170,6 +170,37 @@ services:
       - ./data/db:/db
     entrypoint: ["sh", "-c", "/run_migrations.sh"]
 
+  download_s3_data:
+    image: minio/mc:latest
+    environment: 
+      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
+      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
+      MINIO_HOST: $MINIO_HOST
+      S3_ACCESS_KEY: $S3_ACCESS_KEY
+      S3_SECRET_KEY: $S3_SECRET_KEY
+      S3_HOST: $S3_HOST
+    depends_on:
+      - minio
+    networks: 
+      - default
+    volumes:
+      - ./minio/download_s3_data/download_s3_data.sh:/download_s3_data.sh
+      # Override this with your own file paths to downdload:
+      - ./minio/download_s3_data/file_paths.txt:/file_paths.txt
+    entrypoint: /download_s3_data.sh
+
+  create_partitions:
+    image: jampp/hive:2.3.6
+    depends_on:
+    - hive-server    
+    networks: 
+      - default
+    volumes:
+      - ./hive/create_partitions/create_partitions.sh:/create_partitions.sh
+      # Override this with your own table names to repair:
+      - ./hive/create_partitions/table_names.txt:/opt/table_names.txt
+    entrypoint: /create_partitions.sh
+    
 
 networks:
   default:
