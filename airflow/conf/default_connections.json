@@ -22,7 +22,15 @@
     },
 
     "trino_default": {
-        "conn_type": "trino",
+        "conn_type": "presto",
+        "conn_host": "trinodb",
+        "conn_port": 8083,
+        "conn_schema": "default",
+        "conn_login": "dev-user"
+    },
+
+    "presto_default": {
+        "conn_type": "presto",
         "conn_host": "trinodb",
         "conn_port": 8083,
         "conn_schema": "default",
