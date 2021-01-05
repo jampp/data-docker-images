@@ -10,7 +10,7 @@
 * [Apache Hive](./hive/README.md)
 * [Apache Spark](./spark/README.md)
 * [Apache Livy](./livy/README.md)
-* [PrestoSQL](./presto/)
+* [TrinoDB](./trinodb/)
 * [Migratron](./migratron/README.md)
 
 These components have their own READMEs for setup and configuration instructions.

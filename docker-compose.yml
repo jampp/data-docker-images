@@ -107,15 +107,15 @@ services:
     networks:
       - default
 
-  presto-coordinator:
-    image: prestosql/presto:346
+  trinodb:
+    image: trinodb/trino:351
     restart: always
     environment:
       S3_ACCESS_KEY: $MINIO_ACCESS_KEY
       S3_SECRET_KEY: $MINIO_SECRET_KEY
       S3_ENDPOINT: $MINIO_HOST
     volumes:
-      - ./presto/conf:/usr/lib/presto/etc
+      - ./trino/conf:/usr/lib/trino/etc
     ports:
       - "8083:8080"
     networks:
@@ -158,7 +158,7 @@ services:
     depends_on:
       - minio
       - hive-metastore-postgresql
-      - presto-coordinator
+      - trinodb
       - hive-server
     networks:
       - default
