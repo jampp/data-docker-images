@@ -12,5 +12,8 @@ The connection to MinIO in particular, is found in the [hive.properties](./conf/
 
 ## Running queries
 
-To connect to the Trino service in the container, run the [trino-cli.sh](./trino-cli.sh) script,
-which'll download the `trino-cli.jar` file.
+To run interactive queries through the Trino CLI, run the following command:
+
+```bash
+docker-compose exec trinodb trino --catalog hive --schema default
+```
