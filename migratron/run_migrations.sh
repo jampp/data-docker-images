@@ -41,7 +41,7 @@ else
             --state-db-uri "postgres://hive:hive@hive-metastore-postgresql/metastore" \
             --migrations-path $p \
             --db-type presto \ # Trino does not yet exist as dbtype
-            --db-uri trinodb:8080 \
+            --db-uri trino:8080 \
             --migration-type any \
             --batch-mode
     done

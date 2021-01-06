@@ -1,6 +1,6 @@
 # Trino
 
-This service uses [TrinoDB](https://trino.io/)'s (formerly PrestoSQL) [official image](https://hub.docker.com/r/trinodb/trino).
+This service uses [Trino](https://trino.io/)'s (formerly PrestoSQL) [official image](https://hub.docker.com/r/trinodb/trino).
 
 
 ## Configuration
@@ -15,5 +15,5 @@ The connection to MinIO in particular, is found in the [hive.properties](./conf/
 To run interactive queries through the Trino CLI, run the following command:
 
 ```bash
-docker-compose exec trinodb trino --catalog hive --schema default
+docker-compose exec trino trino --catalog hive --schema default
 ```
