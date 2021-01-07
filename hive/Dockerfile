@@ -2,7 +2,7 @@
 
 ARG HADOOP_VERSION=2.8.5
 
-FROM jampp/hadoop:${HADOOP_VERSION}
+FROM public.ecr.aws/jampp/hadoop:${HADOOP_VERSION}
 
 ARG HADOOP_VERSION
 ARG HIVE_VERSION=2.3.6
@@ -14,7 +14,7 @@ ARG BUILD_DATE
 ARG BUILD_VERSION
 
 LABEL org.opencontainers.image.description="Hive ${HIVE_VERSION} with Hadoop ${HADOOP_VERSION}"
-LABEL org.opencontainers.image.title="jampp/hive"
+LABEL org.opencontainers.image.title="public.ecr.aws/jampp/hive"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"

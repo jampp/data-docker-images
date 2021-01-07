@@ -33,7 +33,7 @@ For releasing the images, you should add two variables to the build command:
 
 This is the build command template:
 ```bash
-docker build ./<image-directory>/ --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg BUILD_VERSION=<version> -t jampp/<image-name>:<tag>
+docker build ./<image-directory>/ --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg BUILD_VERSION=<version> -t <image-name>:<tag>
 ```
 
 > Note: when building an image with the `BUILD_DATE` argument, it will always rebuild the image without using Docker's cache, as the argument modifies one of the first layers.
