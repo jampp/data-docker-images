@@ -3,7 +3,7 @@ version: "3"
 services:
   airflow:
     build: ./airflow/
-    image: jampp/airflow:1.10.12-hive-2.3.6
+    image: public.ecr.aws/jampp/airflow:1.10.12-hive-2.3.6
     volumes:
       - ./airflow/conf:/home/airflow/conf/
       # Mount these for interactive editing:
@@ -35,7 +35,7 @@ services:
 
   livy:
     build: ./livy/
-    image: jampp/livy:0.7.0-incubating
+    image: public.ecr.aws/jampp/livy:0.7.0-incubating
     ports:
       - "8998:8998"
     restart: always
@@ -44,7 +44,7 @@ services:
 
   namenode:
     build: ./hdfs-namenode/
-    image: jampp/hdfs-namenode:2.8.5
+    image: public.ecr.aws/jampp/hdfs-namenode:2.8.5
     volumes:
       - ./data/namenode:/hadoop/dfs/name
     environment:
@@ -58,7 +58,7 @@ services:
 
   datanode:
     build: ./hdfs-datanode/
-    image: jampp/hdfs-datanode:2.8.5
+    image: public.ecr.aws/jampp/hdfs-datanode:2.8.5
     volumes:
       - ./data/datanode:/hadoop/dfs/data
     env_file:
@@ -72,7 +72,7 @@ services:
 
   hive-server:
     build: ./hive/
-    image: jampp/hive:2.3.6
+    image: public.ecr.aws/jampp/hive:2.3.6
     env_file:
       - ./hive/hadoop-hive.env
     environment:
@@ -87,7 +87,7 @@ services:
 
   hive-metastore:
     build: ./hive/
-    image: jampp/hive:2.3.6
+    image: public.ecr.aws/jampp/hive:2.3.6
     env_file:
       - ./hive/hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
@@ -154,7 +154,7 @@ services:
     command: -c '/create_buckets.sh'
 
   migratron:
-    image: jampp/migratron:2.1.0
+    image: public.ecr.aws/jampp/migratron:2.1.0
     depends_on:
       - minio
       - hive-metastore-postgresql
@@ -190,7 +190,7 @@ services:
     entrypoint: /download_s3_data.sh
 
   create_partitions:
-    image: jampp/hive:2.3.6
+    image: public.ecr.aws/jampp/hive:2.3.6
     depends_on:
     - hive-server    
     networks: 
