@@ -21,9 +21,17 @@
         "conn_port": 8998
     },
 
+    "trino_default": {
+        "conn_type": "presto",
+        "conn_host": "trino",
+        "conn_port": 8083,
+        "conn_schema": "default",
+        "conn_login": "dev-user"
+    },
+
     "presto_default": {
         "conn_type": "presto",
-        "conn_host": "hive-server",
+        "conn_host": "trino",
         "conn_port": 8083,
         "conn_schema": "default",
         "conn_login": "dev-user"

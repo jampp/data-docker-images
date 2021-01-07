@@ -1,6 +1,6 @@
 # Migratron
 
-Migratron is an open source project for performing and tracking migrations for Hive, Presto and Postgres.
+Migratron is an open source project for performing and tracking migrations for Hive, Trino (formerly PrestoSQL) and Postgres.
 
 ## Configuration
 

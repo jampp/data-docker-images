@@ -31,17 +31,17 @@ else
     done
 fi
 
-if [ ${#PRESTO_SCHEMA_PATHS[@]} -eq 0 ]; then
-    echo "\$PRESTO_SCHEMA_PATHS is empty."
+if [ ${#TRINO_SCHEMA_PATHS[@]} -eq 0 ]; then
+    echo "\$TRINO_SCHEMA_PATHS is empty."
 else
-    echo "Running PRESTO migrations..."
-    for p in "${PRESTO_SCHEMA_PATHS[@]}"
+    echo "Running TRINO migrations..."
+    for p in "${TRINO_SCHEMA_PATHS[@]}"
     do
         migratron migrate \
             --state-db-uri "postgres://hive:hive@hive-metastore-postgresql/metastore" \
             --migrations-path $p \
-            --db-type presto \
-            --db-uri presto-coordinator:8080 \
+            --db-type presto \ # Trino does not yet exist as dbtype
+            --db-uri trino:8080 \
             --migration-type any \
             --batch-mode
     done

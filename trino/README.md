@@ -1,6 +1,6 @@
-# Presto
+# Trino
 
-This service uses [PrestoSQL](https://prestosql.io/)'s official image.
+This service uses [Trino](https://trino.io/)'s (formerly PrestoSQL) [official image](https://hub.docker.com/r/trinodb/trino).
 
 
 ## Configuration
@@ -12,5 +12,8 @@ The connection to MinIO in particular, is found in the [hive.properties](./conf/
 
 ## Running queries
 
-To connect to the Presto service in the container, run the [presto-cli.sh](./presto-cli.sh) script,
-which'll download the `presto-cli.jar` file.
+To run interactive queries through the Trino CLI, run the following command:
+
+```bash
+docker-compose exec trino trino --catalog hive --schema default
+```

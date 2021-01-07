@@ -7,7 +7,7 @@
 #     /path/to/hive/migration2 \
 # )
 
-# PRESTO_SCHEMA_PATHS=( \
-#     /path/to/presto/migration1 \
-#     /path/to/presto/migration2 \
+# TRINO_SCHEMA_PATHS=( \
+#     /path/to/trino/migration1 \
+#     /path/to/trino/migration2 \
 # )
