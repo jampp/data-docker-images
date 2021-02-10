@@ -5,3 +5,9 @@
 .metals
 .python-version
 *.jar
+
+# Volumes:
+data/
+
+# Credentials files:
+./airflow/conf/credentials-dev.env

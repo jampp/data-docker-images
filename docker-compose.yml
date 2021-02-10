@@ -1,0 +1,209 @@
+version: "3"
+
+services:
+  airflow:
+    build: ./airflow/
+    image: public.ecr.aws/jampp/airflow:1.10.12-hive-2.3.6
+    volumes:
+      - ./airflow/conf:/home/airflow/conf/
+      # Mount these for interactive editing:
+      # - ./dags:/opt/airflow/dags
+      # - ./plugins:/opt/airflow/plugins
+    env_file:
+      # Override this with your credentials for external services:
+      - ./airflow/conf/credentials-dev.env
+    environment:
+      AWS_ACCESS_KEY_ID: $MINIO_ACCESS_KEY
+      AWS_SECRET_ACCESS_KEY: $MINIO_SECRET_KEY
+      S3_ACCESS_KEY: $MINIO_ACCESS_KEY
+      S3_SECRET_KEY: $MINIO_SECRET_KEY
+      S3_ENDPOINT: $MINIO_HOST
+      AIRFLOW__SCHEDULER__STATSD_ON: "True"
+      AIRFLOW__SCHEDULER__STATSD_HOST: metrics
+      AIRFLOW__SCHEDULER__STATSD_PREFIX: airflow
+      AIRFLOW__SCHEDULER__STATSD_PORT: 9125
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+
+  metrics:
+    image: prom/statsd-exporter
+    ports:
+      - "9102:9102"
+    restart: always
+
+  livy:
+    build: ./livy/
+    image: public.ecr.aws/jampp/livy:0.7.0-incubating
+    ports:
+      - "8998:8998"
+    restart: always
+    networks:
+      - default
+
+  namenode:
+    build: ./hdfs-namenode/
+    image: public.ecr.aws/jampp/hdfs-namenode:2.8.5
+    volumes:
+      - ./data/namenode:/hadoop/dfs/name
+    environment:
+      CLUSTER_NAME: test
+    env_file:
+      - ./hive/hadoop-hive.env
+    ports:
+      - "50070:50070"
+    networks:
+      - default
+
+  datanode:
+    build: ./hdfs-datanode/
+    image: public.ecr.aws/jampp/hdfs-datanode:2.8.5
+    volumes:
+      - ./data/datanode:/hadoop/dfs/data
+    env_file:
+      - ./hive/hadoop-hive.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    ports:
+      - "50075:50075"
+    networks:
+      - default
+
+  hive-server:
+    build: ./hive/
+    image: public.ecr.aws/jampp/hive:2.3.6
+    env_file:
+      - ./hive/hadoop-hive.env
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+      HADOOP_CLASSPATH: "/opt/hadoop-2.8.5/share/hadoop/tools/lib/*"
+    ports:
+      - "10000:10000"
+      - "8088:8088"
+    networks:
+      - default
+
+  hive-metastore:
+    build: ./hive/
+    image: public.ecr.aws/jampp/hive:2.3.6
+    env_file:
+      - ./hive/hadoop-hive.env
+    command: /opt/hive/bin/hive --service metastore
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
+    ports:
+    - "9083:9083"
+    networks:
+      - default
+
+  hive-metastore-postgresql:
+    image: bde2020/hive-metastore-postgresql:2.3.0
+    volumes:
+      - ./data/hive-metastore:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+
+  trino:
+    image: trinodb/trino:351
+    restart: always
+    environment:
+      S3_ACCESS_KEY: $MINIO_ACCESS_KEY
+      S3_SECRET_KEY: $MINIO_SECRET_KEY
+      S3_ENDPOINT: $MINIO_HOST
+    volumes:
+      - ./trino/conf:/usr/lib/trino/etc
+    ports:
+      - "8083:8080"
+    networks:
+      - default
+
+  minio:
+    image: minio/minio:RELEASE.2020-10-18T21-54-12Z
+    entrypoint: sh
+    command: -c '/usr/bin/minio server /data'
+    environment:
+      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
+      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
+    volumes:
+      - ./data/minio/data:/data
+      - ./data/minio/config:/root/.minio
+    ports:
+      - "9000:9000"
+    networks:
+      - default
+
+  create_buckets:
+    image: minio/mc:RELEASE.2020-11-17T00-39-14Z
+    depends_on:
+      - minio
+    networks:
+      - default
+    volumes:
+      - ./minio/create_buckets.sh:/create_buckets.sh
+      # Override this with your own bucket list:
+      - ./minio/buckets.txt:/buckets.txt
+    environment: 
+      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
+      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
+      MINIO_HOST: $MINIO_HOST
+    entrypoint: sh
+    command: -c '/create_buckets.sh'
+
+  migratron:
+    image: public.ecr.aws/jampp/migratron:2.1.0
+    depends_on:
+      - minio
+      - hive-metastore-postgresql
+      - trino
+      - hive-server
+    networks:
+      - default
+    volumes:
+      - ./migratron/run_migrations.sh:/run_migrations.sh
+      # Override this with your own migration paths:
+      - ./migratron/migration_paths.sh:/migration_paths.sh
+      # Override with your migrations directory
+      - ./data/db:/db
+    entrypoint: ["sh", "-c", "/run_migrations.sh"]
+
+  download_s3_data:
+    image: minio/mc:latest
+    environment: 
+      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
+      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
+      MINIO_HOST: $MINIO_HOST
+      S3_ACCESS_KEY: $S3_ACCESS_KEY
+      S3_SECRET_KEY: $S3_SECRET_KEY
+      S3_HOST: $S3_HOST
+    depends_on:
+      - minio
+    networks: 
+      - default
+    volumes:
+      - ./minio/download_s3_data/download_s3_data.sh:/download_s3_data.sh
+      # Override this with your own file paths to downdload:
+      - ./minio/download_s3_data/file_paths.txt:/file_paths.txt
+    entrypoint: /download_s3_data.sh
+
+  create_partitions:
+    image: public.ecr.aws/jampp/hive:2.3.6
+    depends_on:
+    - hive-server    
+    networks: 
+      - default
+    volumes:
+      - ./hive/create_partitions/create_partitions.sh:/create_partitions.sh
+      # Override this with your own table names to repair:
+      - ./hive/create_partitions/table_names.txt:/opt/table_names.txt
+    entrypoint: /create_partitions.sh
+    
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 192.168.241.0/24

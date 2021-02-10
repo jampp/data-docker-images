@@ -1,0 +1,39 @@
+{
+    "hive_cli_default": {
+        "conn_type": "hive_cli",
+        "conn_host": "hive-server",
+        "conn_port": 10000,
+        "conn_schema": "default",
+        "conn_login": "hive",
+        "conn_extra": "{\"use_beeline\": true, \"auth\": \"\"}"
+    },
+
+    "metastore_default": {
+        "conn_type": "hive_metastore",
+        "conn_host": "hive-metastore",
+        "conn_port": 9083,
+        "conn_extra": "{\"authMechanism\": \"PLAIN\"}"
+    },
+
+    "livy_default": {
+        "conn_type": "http",
+        "conn_host": "livy",
+        "conn_port": 8998
+    },
+
+    "trino_default": {
+        "conn_type": "presto",
+        "conn_host": "trino",
+        "conn_port": 8083,
+        "conn_schema": "default",
+        "conn_login": "dev-user"
+    },
+
+    "presto_default": {
+        "conn_type": "presto",
+        "conn_host": "trino",
+        "conn_port": 8083,
+        "conn_schema": "default",
+        "conn_login": "dev-user"
+    }
+}
