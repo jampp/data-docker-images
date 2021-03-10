@@ -1,6 +1,6 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-hive
 
-ARG HADOOP_VERSION=2.8.5
+ARG HADOOP_VERSION=3.2.1
 
 FROM public.ecr.aws/jampp/hadoop:${HADOOP_VERSION}
 
