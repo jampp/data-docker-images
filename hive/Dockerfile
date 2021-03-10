@@ -5,7 +5,7 @@ ARG HADOOP_VERSION=3.2.1
 FROM public.ecr.aws/jampp/hadoop:${HADOOP_VERSION}
 
 ARG HADOOP_VERSION
-ARG HIVE_VERSION=2.3.6
+ARG HIVE_VERSION=3.1.2
 
 # Version that works with minio
 ARG AWS_VERSION=1.11.534

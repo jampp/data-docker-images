@@ -1,6 +1,6 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/bde2020/spark-base
 
-ARG HIVE_VERSION=2.3.6
+ARG HIVE_VERSION=3.1.2
 
 FROM public.ecr.aws/jampp/hive:${HIVE_VERSION}
 

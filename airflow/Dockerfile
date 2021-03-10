@@ -1,5 +1,5 @@
 ARG AIRFLOW_VERSION=1.10.12
-ARG HIVE_VERSION=2.3.6
+ARG HIVE_VERSION=3.1.2
 
 FROM public.ecr.aws/jampp/hive:${HIVE_VERSION} as hive
 FROM apache/airflow:${AIRFLOW_VERSION}
