@@ -46,7 +46,7 @@ curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/${AWS_VERSI
 curl -L https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/hadoop-aws.jar
 
 # Updating JAVA libs from Google
-RUN rm /opt/hive/lib/guava-19.0.jar \
+RUN rm /opt/hive/lib/guava-19.0.jar && \
 	cp /opt/hadoop-3.2.1/share/hadoop/common/lib/guava-27.0-jre.jar /opt/hive/lib/
 
 # Custom configuration goes here
