@@ -45,7 +45,11 @@ curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-core/${AWS_VER
 curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/${AWS_VERSION}/aws-java-sdk-s3-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk-s3.jar && \
 curl -L https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/hadoop-aws.jar
 
-#Custom configuration goes here
+# Updating JAVA libs from Google
+RUN rm /opt/hive/lib/guava-19.0.jar \
+	cp /opt/hadoop-3.2.1/share/hadoop/common/lib/guava-27.0-jre.jar /opt/hive/lib/
+
+# Custom configuration goes here
 ADD conf/hive-site.xml $HIVE_HOME/conf
 ADD conf/beeline-log4j2.properties $HIVE_HOME/conf
 ADD conf/hive-env.sh $HIVE_HOME/conf
