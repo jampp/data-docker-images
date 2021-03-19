@@ -10,7 +10,7 @@
 
     "metastore_default": {
         "conn_type": "hive_metastore",
-        "conn_host": "hive-metastore",
+        "conn_host": "hivemetastore",
         "conn_port": 9083,
         "conn_extra": "{\"authMechanism\": \"PLAIN\"}"
     },

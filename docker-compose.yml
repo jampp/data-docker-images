@@ -87,6 +87,8 @@ services:
 
   hive-metastore:
     build: ./hive/
+    hostname: hivemetastore
+    container_name: hive-metastore
     image: public.ecr.aws/jampp/hive:3.1.2
     env_file:
       - ./hive/hadoop-hive.env
@@ -96,7 +98,9 @@ services:
     ports:
     - "9083:9083"
     networks:
-      - default
+      default:
+        aliases:
+          - hivemetastore
 
   hive-metastore-postgresql:
     image: bde2020/hive-metastore-postgresql:3.1.0
@@ -204,6 +208,7 @@ services:
 
 networks:
   default:
+    name: default-docker-env
     ipam:
       config:
         - subnet: 192.168.241.0/24
