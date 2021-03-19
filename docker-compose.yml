@@ -158,7 +158,7 @@ services:
     command: -c '/create_buckets.sh'
 
   migratron:
-    image: public.ecr.aws/jampp/migratron:2.1.0
+    build: ./migratron/
     depends_on:
       - minio
       - hive-metastore-postgresql
@@ -166,6 +166,8 @@ services:
       - hive-server
     networks:
       - default
+    environment:
+      SERVICE_PRECONDITION: "hive-server:10000"
     volumes:
       - ./migratron/run_migrations.sh:/run_migrations.sh
       # Override this with your own migration paths:
