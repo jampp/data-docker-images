@@ -3,7 +3,7 @@ version: "3"
 services:
   airflow:
     build: ./airflow/
-    image: public.ecr.aws/jampp/airflow:1.10.12-hive-2.3.6
+    image: public.ecr.aws/jampp/airflow:1.10.12-hive-3.1.2
     volumes:
       - ./airflow/conf:/home/airflow/conf/
       # Mount these for interactive editing:
@@ -35,7 +35,7 @@ services:
 
   livy:
     build: ./livy/
-    image: public.ecr.aws/jampp/livy:0.7.0-incubating
+    image: public.ecr.aws/jampp/livy:0.6.0-incubating
     ports:
       - "8998:8998"
     restart: always
@@ -44,7 +44,7 @@ services:
 
   namenode:
     build: ./hdfs-namenode/
-    image: public.ecr.aws/jampp/hdfs-namenode:2.8.5
+    image: public.ecr.aws/jampp/hdfs-namenode:3.2.1
     volumes:
       - ./data/namenode:/hadoop/dfs/name
     environment:
@@ -52,33 +52,33 @@ services:
     env_file:
       - ./hive/hadoop-hive.env
     ports:
-      - "50070:50070"
+      - "9870:9870"
     networks:
       - default
 
   datanode:
     build: ./hdfs-datanode/
-    image: public.ecr.aws/jampp/hdfs-datanode:2.8.5
+    image: public.ecr.aws/jampp/hdfs-datanode:3.2.1
     volumes:
       - ./data/datanode:/hadoop/dfs/data
     env_file:
       - ./hive/hadoop-hive.env
     environment:
-      SERVICE_PRECONDITION: "namenode:50070"
+      SERVICE_PRECONDITION: "namenode:9870"
     ports:
-      - "50075:50075"
+      - "9864:9864"
     networks:
       - default
 
   hive-server:
     build: ./hive/
-    image: public.ecr.aws/jampp/hive:2.3.6
+    image: public.ecr.aws/jampp/hive:3.1.2
     env_file:
       - ./hive/hadoop-hive.env
     environment:
       HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
       SERVICE_PRECONDITION: "hive-metastore:9083"
-      HADOOP_CLASSPATH: "/opt/hadoop-2.8.5/share/hadoop/tools/lib/*"
+      HADOOP_CLASSPATH: "/opt/hadoop-3.2.1/share/hadoop/tools/lib/*"
     ports:
       - "10000:10000"
       - "8088:8088"
@@ -87,19 +87,23 @@ services:
 
   hive-metastore:
     build: ./hive/
-    image: public.ecr.aws/jampp/hive:2.3.6
+    hostname: hivemetastore
+    container_name: hive-metastore
+    image: public.ecr.aws/jampp/hive:3.1.2
     env_file:
       - ./hive/hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
     environment:
-      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
+      SERVICE_PRECONDITION: "namenode:9870 datanode:9864 hive-metastore-postgresql:5432"
     ports:
     - "9083:9083"
     networks:
-      - default
+      default:
+        aliases:
+          - hivemetastore
 
   hive-metastore-postgresql:
-    image: bde2020/hive-metastore-postgresql:2.3.0
+    image: bde2020/hive-metastore-postgresql:3.1.0
     volumes:
       - ./data/hive-metastore:/var/lib/postgresql/data
     ports:
@@ -190,7 +194,7 @@ services:
     entrypoint: /download_s3_data.sh
 
   create_partitions:
-    image: public.ecr.aws/jampp/hive:2.3.6
+    image: public.ecr.aws/jampp/hive:3.1.2
     depends_on:
     - hive-server    
     networks: 
@@ -204,6 +208,7 @@ services:
 
 networks:
   default:
+    name: default-docker-env
     ipam:
       config:
         - subnet: 192.168.241.0/24

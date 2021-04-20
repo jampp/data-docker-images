@@ -1,11 +1,11 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-hive
 
-ARG HADOOP_VERSION=2.8.5
+ARG HADOOP_VERSION=3.2.1
 
 FROM public.ecr.aws/jampp/hadoop:${HADOOP_VERSION}
 
 ARG HADOOP_VERSION
-ARG HIVE_VERSION=2.3.6
+ARG HIVE_VERSION=3.1.2
 
 # Version that works with minio
 ARG AWS_VERSION=1.11.534
@@ -43,9 +43,14 @@ RUN apt-get update && apt-get install -y wget procps && \
 RUN curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_VERSION}/aws-java-sdk-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk.jar && \
 curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-core/${AWS_VERSION}/aws-java-sdk-core-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk-core.jar && \
 curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/${AWS_VERSION}/aws-java-sdk-s3-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk-s3.jar && \
-curl -L https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/hadoop-aws.jar
+curl -L https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/hadoop-aws.jar && \
+curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-dynamodb/${AWS_VERSION}/aws-java-sdk-dynamodb-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk-dynamodb-.jar
 
-#Custom configuration goes here
+# Updating JAVA libs from Google
+RUN rm /opt/hive/lib/guava-19.0.jar && \
+	cp /opt/hadoop-3.2.1/share/hadoop/common/lib/guava-27.0-jre.jar /opt/hive/lib/
+
+# Custom configuration goes here
 ADD conf/hive-site.xml $HIVE_HOME/conf
 ADD conf/beeline-log4j2.properties $HIVE_HOME/conf
 ADD conf/hive-env.sh $HIVE_HOME/conf
