@@ -6,7 +6,7 @@ function wait_for_beeline() {
     local retry_seconds=5
     local max_try=100
     (( i=1 ))
-    beeline -u 'jdbc:hive2://hive-server:10000/default;auth=noSasl' -e 'select 1;' > /dev/null 2>&1
+    beeline -u 'jdbc:hive2://hive-server:10000/default' -e 'select 1;' > /dev/null 2>&1
     result=$?
     until [ $result -eq 0 ]; do
         echo "[$i/$max_try] check for beeline..."
@@ -19,7 +19,7 @@ function wait_for_beeline() {
         echo "[$i/$max_try] try in ${retry_seconds}s once again ..."
         (( i++ ))
         sleep $retry_seconds
-        beeline -u 'jdbc:hive2://hive-server:10000/default;auth=noSasl' -e 'select 1;' > /dev/null 2>&1
+        beeline -u 'jdbc:hive2://hive-server:10000/default' -e 'select 1;' > /dev/null 2>&1
         result=$?
     done
     echo "[$i/$max_try] beeline is available."
