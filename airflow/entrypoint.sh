@@ -31,7 +31,7 @@ create_connections() {
     done
 }
 
-init_airflow() {
+init_airflow() {  # Init db, add pools, variables and connections
     airflow initdb
 
     airflow variables -i "${CONFIG_FILES_PATH}/variables.json"
@@ -42,12 +42,11 @@ init_airflow() {
 
 }
 
-init_airflow  # Init db, add pools, variables and connections
-
 case "${1}" in
 
     'airflow')
         shift
+        init_airflow
         airflow scheduler &
         exec airflow "${@}"
     ;;
@@ -60,6 +59,12 @@ case "${1}" in
     'python')
         shift
         exec "python" "${@}"
+    ;;
+
+    'pytest')
+        shift
+        init_airflow
+        exec "pytest" "${@}"
     ;;
 
     *)
