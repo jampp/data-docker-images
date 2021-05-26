@@ -112,7 +112,7 @@ To start the modified environment up, stand in your other project's folder and r
 ```bash
 PWD=`pwd` docker-compose \
   -f ./path/to/this/repo/docker-compose.yml \
-  -f ./docker-compose.volumes.yml \
+  -f ./path/to/this/repo/docker-compose.volumes.yml \
   -f ./docker-compose.override.yml \
   up -d
 ```
