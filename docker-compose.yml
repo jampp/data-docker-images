@@ -45,8 +45,6 @@ services:
   namenode:
     build: ./hdfs-namenode/
     image: public.ecr.aws/jampp/hdfs-namenode:3.2.1
-    volumes:
-      - ./data/namenode:/hadoop/dfs/name
     environment:
       CLUSTER_NAME: test
     env_file:
@@ -59,8 +57,6 @@ services:
   datanode:
     build: ./hdfs-datanode/
     image: public.ecr.aws/jampp/hdfs-datanode:3.2.1
-    volumes:
-      - ./data/datanode:/hadoop/dfs/data
     env_file:
       - ./hive/hadoop-hive.env
     environment:
@@ -104,8 +100,6 @@ services:
 
   hive-metastore-postgresql:
     image: bde2020/hive-metastore-postgresql:3.1.0
-    volumes:
-      - ./data/hive-metastore:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
@@ -132,9 +126,6 @@ services:
     environment:
       MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
       MINIO_SECRET_KEY: $MINIO_SECRET_KEY
-    volumes:
-      - ./data/minio/data:/data
-      - ./data/minio/config:/root/.minio
     ports:
       - "9000:9000"
     networks:

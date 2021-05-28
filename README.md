@@ -27,7 +27,7 @@ which will assign the tag specified in the service to the new image, overriding 
 
 
 For releasing the images, you should add two variables to the build command:
-    
+
 * `BUILD_DATE`: specifies the date, this can be generated automatically with the command `date -u +'%Y-%m-%dT%H:%M:%SZ'`
 * `BUILD_VERSION`: specifies the build version with semantic versioning. *This is not the same as the image's tag*.
 
@@ -61,6 +61,7 @@ docker-compose up -d minio airflow livy
 
 One of the most useful parts of this project is being a centralized environment for other projects to use.
 Using the [docker-compose override feature](https://docs.docker.com/compose/extends/), we can point to this [docker-compose.yml](./docker-compose.yml) from another project and overwrite only the minimum needed.
+To take the most advantage of this feature, you should also use the `docker-compose.volumes.yml` file, that defines common volumes to be used by this projects.
 
 For example, a `docker-compose.override.yml` file in another repository would look like this:
 
@@ -93,7 +94,7 @@ services:
     # You can override only the image and it will use all the default configurations
     # found in the base compose file.
     image: <another-custom-image>:<tag>
-  
+
   create_buckets:
     volumes:
       - ${PWD}/docker/minio/buckets.txt:/buckets.txt
@@ -109,7 +110,11 @@ services:
 To start the modified environment up, stand in your other project's folder and run:
 
 ```bash
-PWD=`pwd` docker-compose -f ./path/to/this/repo/docker-compose.yml -f ./docker-compose.override.yml up -d
+PWD=`pwd` docker-compose \
+  -f ./path/to/this/repo/docker-compose.yml \
+  -f ./path/to/this/repo/docker-compose.volumes.yml \
+  -f ./docker-compose.override.yml \
+  up -d
 ```
 
-> Note: when doing this, it's better to use absolute paths on the `docker-compose.override.yml`, that's what the `PWD` assignment is there for in the command (more [here](https://stackoverflow.com/a/50991623)). 
+> Note: when doing this, it's better to use absolute paths on the `docker-compose.override.yml`, that's what the `PWD` assignment is there for in the command (more [here](https://stackoverflow.com/a/50991623)).
