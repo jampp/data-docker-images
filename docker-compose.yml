@@ -150,7 +150,7 @@ services:
       - ./minio/create_buckets.sh:/create_buckets.sh
       # Override this with your own bucket list:
       - ./minio/buckets.txt:/buckets.txt
-    environment: 
+    environment:
       MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
       MINIO_SECRET_KEY: $MINIO_SECRET_KEY
       MINIO_HOST: $MINIO_HOST
@@ -176,7 +176,7 @@ services:
 
   download_s3_data:
     image: minio/mc:latest
-    environment: 
+    environment:
       MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
       MINIO_SECRET_KEY: $MINIO_SECRET_KEY
       MINIO_HOST: $MINIO_HOST
@@ -185,7 +185,7 @@ services:
       S3_HOST: $S3_HOST
     depends_on:
       - minio
-    networks: 
+    networks:
       - default
     volumes:
       - ./minio/download_s3_data/download_s3_data.sh:/download_s3_data.sh
@@ -196,15 +196,15 @@ services:
   create_partitions:
     image: public.ecr.aws/jampp/hive:3.1.2
     depends_on:
-    - hive-server    
-    networks: 
+    - hive-server
+    networks:
       - default
     volumes:
       - ./hive/create_partitions/create_partitions.sh:/create_partitions.sh
       # Override this with your own table names to repair:
       - ./hive/create_partitions/table_names.txt:/opt/table_names.txt
     entrypoint: /create_partitions.sh
-    
+
 
 networks:
   default:
