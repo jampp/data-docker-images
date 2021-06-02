@@ -24,7 +24,7 @@ case "${1}" in
     'pytest')
         shift
         /init_airflow.sh
-        pytest "${@}"
+        exec "pytest" "${@}"
     ;;
 
     *)
