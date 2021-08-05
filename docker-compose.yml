@@ -35,7 +35,7 @@ services:
 
   livy:
     build: ./livy/
-    image: public.ecr.aws/jampp/livy:0.6.0-incubating
+    image: public.ecr.aws/jampp/livy:0.7.0-incubating
     ports:
       - "8998:8998"
     restart: always
