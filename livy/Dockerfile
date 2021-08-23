@@ -1,4 +1,4 @@
-ARG SPARK_VERSION=3.0.0
+ARG SPARK_VERSION=3.1.1
 
 FROM public.ecr.aws/jampp/spark:${SPARK_VERSION}
 
