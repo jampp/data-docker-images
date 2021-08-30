@@ -8,7 +8,7 @@ ARG HADOOP_VERSION
 ARG HIVE_VERSION=3.1.2
 
 # Version that works with minio
-ARG AWS_VERSION=1.11.534
+ARG AWS_VERSION=1.11.977
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
@@ -39,7 +39,7 @@ RUN apt-get update && apt-get install -y wget procps && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-# Install AWS jars  
+# Install AWS jars
 RUN curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_VERSION}/aws-java-sdk-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk.jar && \
 curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-core/${AWS_VERSION}/aws-java-sdk-core-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk-core.jar && \
 curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/${AWS_VERSION}/aws-java-sdk-s3-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk-s3.jar && \
