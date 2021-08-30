@@ -50,7 +50,7 @@ RUN mkdir -p ${SPARK_CONF_DIR} && cp $HIVE_HOME/conf/hive-site.xml ${SPARK_CONF_
 COPY spark-env.sh $SPARK_CONF_DIR/
 COPY spark-defaults.conf $SPARK_CONF_DIR/
 
-RUN cp hive/lib/joda-time-2.9.9.jar spark/jars/
+RUN cp /opt/hive/lib/joda-time-2.9.9.jar /opt/spark/jars/
 
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
