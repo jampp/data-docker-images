@@ -34,6 +34,10 @@ RUN apt-get update && apt-get install -y curl wget python3 python3-setuptools py
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
+# Spark 3.1.1 dist comes with an incompatible guava
+RUN cp $HIVE_HOME/lib/guava-27.0-jre.jar $SPARK_HOME/jars
+RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
+
 # Fix the value of PYTHONHASHSEED
 # Note: this is needed when you use Python 3.3 or greater
 ENV PYTHONHASHSEED=1

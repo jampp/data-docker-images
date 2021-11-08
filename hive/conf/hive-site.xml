@@ -24,20 +24,8 @@
   </property>
 
   <property>
-    <name>javax.jdo.option.ConnectionUserName</name>
-    <value>hive</value>
-    <description>username to use against metastore database</description>
-  </property>
-
-  <property>
-    <name>javax.jdo.option.ConnectionPassword</name>
-    <value>hive</value>
-    <description>password to use against metastore database</description>
-  </property>
-
-  <property>
     <name>hive.server2.thrift.url</name>
-    <value>thrift://hive-metastore:10000</value>
+    <value>thrift://hive-server:10000</value>
   </property>
 
   <property>
