@@ -27,11 +27,10 @@ ENV INIT_DAEMON_BASE_URI=http://identifier/init-daemon
 ENV INIT_DAEMON_STEP=spark_master_init
 
 RUN apt-get update && apt-get install -y curl wget python3 python3-setuptools python3-pip && \
-    wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-without-hadoop.tgz && \
-    tar -xvzf spark-${SPARK_VERSION}-bin-without-hadoop.tgz && \
-    mv spark-${SPARK_VERSION}-bin-without-hadoop ${SPARK_HOME} && \
-    rm spark-${SPARK_VERSION}-bin-without-hadoop.tgz && \
-    apt-get --purge remove -y wget && \
+    wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop3.2.tgz && \
+    tar -xvzf spark-${SPARK_VERSION}-bin-hadoop3.2.tgz && \
+    mv spark-${SPARK_VERSION}-bin-hadoop3.2 ${SPARK_HOME} && \
+    rm spark-${SPARK_VERSION}-bin-hadoop3.2.tgz && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
