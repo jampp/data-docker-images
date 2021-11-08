@@ -46,6 +46,13 @@ curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/${AWS_VERSI
 curl -L https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/hadoop-aws.jar && \
 curl -L https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-dynamodb/${AWS_VERSION}/aws-java-sdk-dynamodb-${AWS_VERSION}.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/aws-java-sdk-dynamodb-.jar
 
+# Install Iceberg jar
+RUN curl -L https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-hive-runtime/0.12.0/iceberg-hive-runtime-0.12.0.jar -o ${HADOOP_HOME}/share/hadoop/common/lib/iceberg-hive-runtime-0.12.0.jar
+
+# Download ICEBERG Jar again, just to be sure
+RUN cd /opt && \
+    curl https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-hive-runtime/0.12.0/iceberg-hive-runtime-0.12.0.jar -o iceberg-hive-runtime-0.12.0.jar
+
 # Updating JAVA libs from Google
 RUN rm /opt/hive/lib/guava-19.0.jar && \
 	cp /opt/hadoop-3.2.1/share/hadoop/common/lib/guava-27.0-jre.jar /opt/hive/lib/

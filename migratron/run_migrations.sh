@@ -64,3 +64,19 @@ else
             --batch-mode
     done
 fi
+
+if [ ${#LIVY_SCHEMA_PATHS[@]} -eq 0 ]; then
+    echo "\$LIVY_SCHEMA_PATHS is empty."
+else
+    echo "Running LIVY migrations..."
+    for p in "${LIVY_SCHEMA_PATHS[@]}"
+    do
+        migratron migrate \
+            --state-db-uri "postgres://hive:hive@hive-metastore-postgresql/metastore" \
+            --migrations-path $p \
+            --db-type livy \
+            --db-uri jdbc:hive2://hive-server:10000/ \
+            --migration-type any \
+            --batch-mode
+    done
+fi
