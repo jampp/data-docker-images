@@ -68,15 +68,20 @@ fi
 if [ ${#LIVY_SCHEMA_PATHS[@]} -eq 0 ]; then
     echo "\$LIVY_SCHEMA_PATHS is empty."
 else
+    echo "Creating persistent session..."
+    SESSION_ID=$(curl -H "Content-Type: application/json" -X POST http://livy:8998/sessions -d '{"kind": "sql"}' | jq -r '.id')
+    echo "Created session ${SESSION_ID}"
     echo "Running LIVY migrations..."
     for p in "${LIVY_SCHEMA_PATHS[@]}"
     do
         migratron migrate \
             --state-db-uri "postgres://hive:hive@hive-metastore-postgresql/metastore" \
             --migrations-path $p \
-            --db-type livy \
-            --db-uri jdbc:hive2://hive-server:10000/ \
+            --db-type sqlalchemy \
+            --db-uri 'livy://@livy?persist=true&session_id='${SESSION_ID} \
             --migration-type any \
             --batch-mode
     done
+    echo "Deleting persistent session..."
+    curl -X DELETE http://livy:8998/sessions/${SESSION_ID}
 fi

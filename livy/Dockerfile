@@ -22,9 +22,8 @@ RUN mkdir -p /src/livy
 WORKDIR /src/livy
 
 # Download Livy source files
-COPY ./apache-livy-${LIVY_VERSION}-bin.zip /src/livy/apache-livy-${LIVY_VERSION}-bin.zip
 RUN apt-get update && apt-get install -y wget unzip && \
-    # wget https://downloads.apache.org/incubator/livy/${LIVY_VERSION}/apache-livy-${LIVY_VERSION}-bin.zip  && \
+    wget --no-check-certificate --no-proxy https://artifacts.jampp.com.s3.amazonaws.com/livy/apache-livy-${LIVY_VERSION}-bin.zip  && \
     unzip apache-livy-${LIVY_VERSION}-bin.zip && \
     rm apache-livy-${LIVY_VERSION}-bin.zip && \
     apt-get --purge remove -y wget unzip && \
