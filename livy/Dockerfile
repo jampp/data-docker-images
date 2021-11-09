@@ -28,8 +28,8 @@ RUN apt-get update && apt-get install -y wget unzip && \
     rm apache-livy-${LIVY_VERSION}-bin.zip && \
     apt-get --purge remove -y wget unzip && \
     apt-get autoremove -y && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy the local config file to the container
 COPY ./livy.conf /src/livy/apache-livy-${LIVY_VERSION}-bin/conf/

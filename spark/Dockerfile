@@ -31,8 +31,8 @@ RUN apt-get update && apt-get install -y curl wget python3 python3-setuptools py
     tar -xvzf spark-${SPARK_VERSION}-bin-hadoop3.2.tgz && \
     mv spark-${SPARK_VERSION}-bin-hadoop3.2 ${SPARK_HOME} && \
     rm spark-${SPARK_VERSION}-bin-hadoop3.2.tgz && \
-	apt-get clean && \
-	rm -rf /var/lib/apt/lists/*
+    apt-get clean && \
+	  rm -rf /var/lib/apt/lists/*
 
 # Spark 3.1.1 dist comes with an incompatible guava
 RUN cp $HIVE_HOME/lib/guava-27.0-jre.jar $SPARK_HOME/jars
