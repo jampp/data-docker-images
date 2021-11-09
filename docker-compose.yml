@@ -149,7 +149,7 @@ services:
     command: -c '/create_buckets.sh'
 
   migratron:
-    image: public.ecr.aws/jampp/migratron:2.1.1
+    image: public.ecr.aws/jampp/migratron:2.2.0
     depends_on:
       - minio
       - hive-metastore-postgresql
@@ -163,7 +163,6 @@ services:
       - ./migratron/migration_paths.sh:/migration_paths.sh
       # Override with your migrations directory
       - ./data/db:/db
-      - ./iceberg-hive-runtime-0.12.0.jar:/opt/jampp/iceberg-hive-runtime-0.12.0.jar
     entrypoint: ["sh", "-c", "/run_migrations.sh"]
 
   download_s3_data:
