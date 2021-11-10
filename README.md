@@ -20,23 +20,20 @@ These components have their own READMEs for setup and configuration instructions
 To build these images for development, you can just run
 
 ```bash
-docker-compose build <service-name>
+make build
 ```
 
 which will assign the tag specified in the service to the new image, overriding the previous one.
 
+For releasing the images:
 
-For releasing the images, you should add two variables to the build command:
-
-* `BUILD_DATE`: specifies the date, this can be generated automatically with the command `date -u +'%Y-%m-%dT%H:%M:%SZ'`
-* `BUILD_VERSION`: specifies the build version with semantic versioning. *This is not the same as the image's tag*.
-
-This is the build command template:
 ```bash
-docker build ./<image-directory>/ --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg BUILD_VERSION=<version> -t <image-name>:<tag>
+make release
 ```
 
-> Note: when building an image with the `BUILD_DATE` argument, it will always rebuild the image without using Docker's cache, as the argument modifies one of the first layers.
+This will build all the images using the corresponding version and push them to the registry, also creating a new tag.
+
+> Note: Versioning of the images is not tied to the service, but instead is an indicator of the stack (like EMR).
 
 
 ## Running the environment
