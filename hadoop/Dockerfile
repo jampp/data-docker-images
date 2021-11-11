@@ -1,18 +1,14 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-base
-
 FROM openjdk:8-slim
 
-ARG HADOOP_VERSION=3.2.1
-
-ARG BUILD_DATE
 ARG BUILD_VERSION
+ARG HADOOP_VERSION=3.2.1
 
 LABEL org.opencontainers.image.description="Hadoop ${HADOOP_VERSION} base image"
 LABEL org.opencontainers.image.title="public.ecr.aws/jampp/hadoop"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
-LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.version=$BUILD_VERSION
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -31,7 +27,7 @@ RUN set -x \
     && gpg --verify /tmp/hadoop.tar.gz.asc \
     && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
     && rm /tmp/hadoop.tar.gz*
-    
+
 RUN ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
 RUN mkdir /opt/hadoop-$HADOOP_VERSION/logs
 

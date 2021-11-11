@@ -1,20 +1,17 @@
+ARG BUILD_VERSION
 ARG SPARK_VERSION=3.1.1
 
-FROM public.ecr.aws/jampp/spark:${SPARK_VERSION}
+FROM public.ecr.aws/jampp/spark:${BUILD_VERSION}
 
 ARG LIVY_VERSION=0.8.0-incubating-SNAPSHOT
 ENV LIVY_VERSION=${LIVY_VERSION}
 ARG SPARK_VERSION
-
-ARG BUILD_DATE
-ARG BUILD_VERSION
 
 LABEL org.opencontainers.image.description="Livy ${LIVY_VERSION} with Spark ${SPARK_VERSION}"
 LABEL org.opencontainers.image.title="public.ecr.aws/jampp/livy"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
-LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.version=$BUILD_VERSION
 
 # Create folder for Livy source files

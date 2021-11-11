@@ -69,7 +69,7 @@ if [ ${#LIVY_SCHEMA_PATHS[@]} -eq 0 ]; then
     echo "\$LIVY_SCHEMA_PATHS is empty."
 else
     echo "Creating persistent session..."
-    SESSION_ID=$(curl -H "Content-Type: application/json" -X POST http://livy:8998/sessions -d '{"kind": "sql"}' | jq -r '.id')
+    SESSION_ID=$(curl -H "Content-Type: application/json" -X POST http://livy:8998/sessions -d '{"kind": "sql", "conf":{"spark.jars.packages":"org.apache.iceberg:iceberg-spark3-runtime:0.12.1"}}' | jq -r '.id')
     echo "Created session ${SESSION_ID}"
     echo "Running LIVY migrations..."
     for p in "${LIVY_SCHEMA_PATHS[@]}"

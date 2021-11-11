@@ -1,8 +1,8 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/johannestang/hadoop-hive
-
+ARG BUILD_VERSION
 ARG HADOOP_VERSION=3.2.1
 
-FROM public.ecr.aws/jampp/hadoop:${HADOOP_VERSION}
+FROM public.ecr.aws/jampp/hadoop:${BUILD_VERSION}
 
 ARG HADOOP_VERSION
 ARG HIVE_VERSION=3.1.2
@@ -10,15 +10,11 @@ ARG HIVE_VERSION=3.1.2
 # Version that works with minio
 ARG AWS_VERSION=1.11.977
 
-ARG BUILD_DATE
-ARG BUILD_VERSION
-
 LABEL org.opencontainers.image.description="Hive ${HIVE_VERSION} with Hadoop ${HADOOP_VERSION}"
 LABEL org.opencontainers.image.title="public.ecr.aws/jampp/hive"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
-LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.version=$BUILD_VERSION
 
 ENV HIVE_HOME=/opt/hive

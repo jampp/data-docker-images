@@ -1,3 +1,4 @@
+ARG BUILD_VERSION
 ARG AIRFLOW_VERSION=1.10.12
 ARG HIVE_VERSION=3.1.2
 
@@ -8,15 +9,11 @@ ENV AIRFLOW_VERSION=${AIRFLOW_VERSION}
 ENV HIVE_VERSION=${HIVE_VERSION}
 ENV HADOOP_VERSION=3.2.1
 
-ARG BUILD_DATE
-ARG BUILD_VERSION
-
 LABEL org.opencontainers.image.description="Airflow ${AIRFLOW_VERSION} base image with Hive ${HIVE_VERSION}"
 LABEL org.opencontainers.image.title="public.ecr.aws/jampp/airflow"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
-LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.version=$BUILD_VERSION
 
 ARG DEBIAN_FRONTEND=noninteractive

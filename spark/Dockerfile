@@ -1,21 +1,17 @@
 # Note: This Dockerfile is based on https://hub.docker.com/r/bde2020/spark-base
-
+ARG BUILD_VERSION
 ARG HIVE_VERSION=3.1.2
 
-FROM public.ecr.aws/jampp/hive:${HIVE_VERSION}
+FROM public.ecr.aws/jampp/hive:${BUILD_VERSION}
 
 ARG SPARK_VERSION=3.1.1
 ARG HADOOP_VERSION=3.2.1
-
-ARG BUILD_DATE
-ARG BUILD_VERSION
 
 LABEL org.opencontainers.image.description="Spark ${SPARK_VERSION} base image with Hadoop ${HADOOP_VERSION}"
 LABEL org.opencontainers.image.title="public.ecr.aws/jampp/spark"
 LABEL org.opencontainers.image.vendor="Jampp"
 LABEL org.opencontainers.image.authors="Data Infrastructure Team <data-infra@jampp.com>"
 LABEL org.opencontainers.image.url="https://github.com/jampp/data-docker-images"
-LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.version=$BUILD_VERSION
 
 ENV SPARK_CONF_DIR=/spark/conf

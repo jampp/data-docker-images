@@ -2,8 +2,7 @@ version: "3"
 
 services:
   airflow:
-    build: ./airflow/
-    image: public.ecr.aws/jampp/airflow:1.10.12-hive-3.1.2
+    image: public.ecr.aws/jampp/airflow:2.1.0
     volumes:
       - ./airflow/conf:/home/airflow/conf/
       # Mount these for interactive editing:
@@ -34,8 +33,7 @@ services:
     restart: always
 
   livy:
-    build: ./livy/
-    image: public.ecr.aws/jampp/livy:0.8.0-spark-3.1.1
+    image: public.ecr.aws/jampp/livy:2.1.0
     ports:
       - "8998:8998"
     restart: always
@@ -43,8 +41,7 @@ services:
       - default
 
   namenode:
-    build: ./hdfs-namenode/
-    image: public.ecr.aws/jampp/hdfs-namenode:3.2.1
+    image: public.ecr.aws/jampp/hdfs-namenode:2.1.0
     environment:
       CLUSTER_NAME: test
     env_file:
@@ -55,8 +52,7 @@ services:
       - default
 
   datanode:
-    build: ./hdfs-datanode/
-    image: public.ecr.aws/jampp/hdfs-datanode:3.2.1
+    image: public.ecr.aws/jampp/hdfs-datanode:2.1.0
     env_file:
       - ./hive/hadoop-hive.env
     environment:
@@ -67,8 +63,7 @@ services:
       - default
 
   hive-server:
-    build: ./hive/
-    image: public.ecr.aws/jampp/hive:3.1.2
+    image: public.ecr.aws/jampp/hive:2.1.0
     env_file:
       - ./hive/hadoop-hive.env
     environment:
@@ -82,10 +77,9 @@ services:
       - default
 
   hive-metastore:
-    build: ./hive/
     hostname: hivemetastore
     container_name: hive-metastore
-    image: public.ecr.aws/jampp/hive:3.1.2
+    image: public.ecr.aws/jampp/hive:2.1.0
     env_file:
       - ./hive/hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
@@ -185,7 +179,7 @@ services:
     entrypoint: /download_s3_data.sh
 
   create_partitions:
-    image: public.ecr.aws/jampp/hive:3.1.2
+    image: public.ecr.aws/jampp/hive:2.1.0
     depends_on:
     - hive-server
     networks:

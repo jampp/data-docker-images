@@ -1,0 +1,26 @@
+==========
+Change Log
+==========
+
+All notable changes to this project will be documented here.
+
+Sort subsections like so: Added, Bugfixes, Improvements, Technical tasks.
+Group anything an end user shouldn't care deeply about into technical
+tasks, even if they're technically bugs. Only include as "bugfixes"
+bugs with user-visible outcomes.
+
+When major components get significant changes worthy of mention, they
+can be described in a Major section.
+
+More information can be found HERE:
+
+
+v2.1.0 - Unreleased
+===================
+
+Added
+-----
+
+* Upgrade migratron to 2.2.0
+* Change Spark image to enable Hive integration.
+* Use Livy 0.8.0 SNAPSHOT to enable the use of sessions for Spark 3.
