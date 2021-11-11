@@ -35,7 +35,7 @@ services:
 
   livy:
     build: ./livy/
-    image: public.ecr.aws/jampp/livy:0.7.0-spark-3.1.1
+    image: public.ecr.aws/jampp/livy:0.8.0-spark-3.1.1
     ports:
       - "8998:8998"
     restart: always
@@ -149,7 +149,7 @@ services:
     command: -c '/create_buckets.sh'
 
   migratron:
-    image: public.ecr.aws/jampp/migratron:2.1.0
+    image: public.ecr.aws/jampp/migratron:2.2.0
     depends_on:
       - minio
       - hive-metastore-postgresql
