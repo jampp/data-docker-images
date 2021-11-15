@@ -48,6 +48,7 @@ RUN chmod +x /wait-for-step.sh && chmod +x /execute-step.sh && chmod +x /finish-
 RUN mkdir -p ${SPARK_CONF_DIR} && cp $HIVE_HOME/conf/hive-site.xml ${SPARK_CONF_DIR}/hive-site.xml
 COPY spark-env.sh $SPARK_CONF_DIR/
 COPY spark-defaults.conf $SPARK_CONF_DIR/
+COPY core-site.xml $SPARK_CONF_DIR/
 
 RUN ln -s /opt/hive/lib/joda-time-2.9.9.jar /opt/spark/jars/joda-time-2.9.9.jar
 

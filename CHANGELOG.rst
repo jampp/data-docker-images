@@ -15,6 +15,15 @@ can be described in a Major section.
 More information can be found HERE:
 
 
+v2.1.1 - Unreleased
+===================
+
+Added
+-----
+
+* Access to Hive through Spark 
+
+
 v2.1.0 - 2021-11-11
 ===================
 
