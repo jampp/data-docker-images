@@ -15,7 +15,7 @@ can be described in a Major section.
 More information can be found HERE:
 
 
-v2.1.1 - Unreleased
+v2.1.1 - 2021-11-16
 ===================
 
 Added
