@@ -15,7 +15,7 @@ can be described in a Major section.
 More information can be found HERE:
 
 
-v2.1.2 - unreleased
+v2.2.0 - unreleased
 ===================
 
 Added
@@ -39,7 +39,6 @@ v2.1.0 - 2021-11-11
 Added
 -----
 
-* add compatibility and Upgraded Spark to version 3.1.2
 * Upgrade migratron to 2.2.0
 * Change Spark image to enable Hive integration.
 * Use Livy 0.8.0 SNAPSHOT to enable the use of sessions for Spark 3.
