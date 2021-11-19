@@ -15,6 +15,15 @@ can be described in a Major section.
 More information can be found HERE:
 
 
+v2.1.2 - unreleased
+===================
+
+Added
+-----
+
+* add compatibility and Upgraded Spark to version 3.1.2
+
+
 v2.1.1 - 2021-11-16
 ===================
 

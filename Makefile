@@ -9,8 +9,7 @@ build:
 	docker build --build-arg BUILD_VERSION=$(VERSION) -t public.ecr.aws/jampp/hdfs-datanode:$(VERSION) hdfs-datanode
 	docker build --build-arg BUILD_VERSION=$(VERSION) -t public.ecr.aws/jampp/airflow:$(VERSION) airflow
 
-release:
-	build
+release: build
 	docker push public.ecr.aws/jampp/hadoop:$(VERSION)
 	docker push public.ecr.aws/jampp/hive:$(VERSION)
 	docker push public.ecr.aws/jampp/spark:$(VERSION)
