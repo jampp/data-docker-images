@@ -4,7 +4,7 @@ ARG HIVE_VERSION=3.1.2
 
 FROM public.ecr.aws/jampp/hive:${BUILD_VERSION}
 
-ARG SPARK_VERSION=3.1.1
+ARG SPARK_VERSION=3.1.2
 ARG HADOOP_VERSION=3.2.1
 
 LABEL org.opencontainers.image.description="Spark ${SPARK_VERSION} base image with Hadoop ${HADOOP_VERSION}"
