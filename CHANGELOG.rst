@@ -15,13 +15,22 @@ can be described in a Major section.
 More information can be found HERE:
 
 
+v2.3.0 - Unreleased
+===================
+
+Changed
+-------
+
+* Update Trino version to 367.
+
+
 v2.2.0 - 2021-11-23
 ===================
 
 Added
 -----
 
-* add compatibility and Upgraded Spark to version 3.1.2
+* Add compatibility and Upgraded Spark to version 3.1.2
 
 
 v2.1.1 - 2021-11-16

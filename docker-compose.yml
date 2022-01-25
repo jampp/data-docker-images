@@ -86,7 +86,7 @@ services:
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode:9864 hive-metastore-postgresql:5432"
     ports:
-    - "9083:9083"
+      - "9083:9083"
     networks:
       default:
         aliases:
@@ -100,7 +100,7 @@ services:
       - default
 
   trino:
-    image: trinodb/trino:351
+    image: trinodb/trino:367
     restart: always
     environment:
       S3_ACCESS_KEY: $MINIO_ACCESS_KEY
@@ -157,7 +157,7 @@ services:
       - ./migratron/migration_paths.sh:/migration_paths.sh
       # Override with your migrations directory
       - ./data/db:/db
-    entrypoint: ["sh", "-c", "/run_migrations.sh"]
+    entrypoint: [ "sh", "-c", "/run_migrations.sh" ]
 
   download_s3_data:
     image: minio/mc:latest
@@ -181,7 +181,7 @@ services:
   create_partitions:
     image: public.ecr.aws/jampp/hive:2.2.0
     depends_on:
-    - hive-server
+      - hive-server
     networks:
       - default
     volumes:
@@ -189,7 +189,6 @@ services:
       # Override this with your own table names to repair:
       - ./hive/create_partitions/table_names.txt:/opt/table_names.txt
     entrypoint: /create_partitions.sh
-
 
 networks:
   default:
