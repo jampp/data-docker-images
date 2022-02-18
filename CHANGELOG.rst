@@ -34,13 +34,15 @@ Changed
 * Update Trino version to 367.
 
 
+=======
 v2.2.0 - 2021-11-23
 ===================
 
 Added
 -----
 
-* Add compatibility and Upgraded Spark to version 3.1.2
+
+* add compatibility and Upgraded Spark to version 3.1.2
 
 
 v2.1.1 - 2021-11-16
