@@ -15,11 +15,32 @@ can be described in a Major section.
 More information can be found HERE:
 
 
+v2.4.0 - 2022-02-18
+===================
+
+Changed
+-------
+
+* Update Trino version to 370.
+* Disabled mysql in airflow image.
+
+
+v2.3.0 - Unreleased
+===================
+
+Changed
+-------
+
+* Update Trino version to 367.
+
+
+=======
 v2.2.0 - 2021-11-23
 ===================
 
 Added
 -----
+
 
 * add compatibility and Upgraded Spark to version 3.1.2
 

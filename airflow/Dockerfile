@@ -25,6 +25,9 @@ ENV PATH=${HIVE_HOME}/bin:${PATH}
 
 USER root
 
+# Disabling mysql due change of secret key of public repository
+RUN rm /etc/apt/sources.list.d/mysql.list
+
 # Install jq for creating connections from json files
 RUN apt-get update && \
     apt-get install -y jq && \

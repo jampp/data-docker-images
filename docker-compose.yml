@@ -2,7 +2,7 @@ version: "3"
 
 services:
   airflow:
-    image: public.ecr.aws/jampp/airflow:2.2.0
+    image: public.ecr.aws/jampp/airflow:2.4.0
     volumes:
       - ./airflow/conf:/home/airflow/conf/
       # Mount these for interactive editing:
@@ -33,7 +33,7 @@ services:
     restart: always
 
   livy:
-    image: public.ecr.aws/jampp/livy:2.2.0
+    image: public.ecr.aws/jampp/livy:2.4.0
     ports:
       - "8998:8998"
     restart: always
@@ -41,7 +41,7 @@ services:
       - default
 
   namenode:
-    image: public.ecr.aws/jampp/hdfs-namenode:2.2.0
+    image: public.ecr.aws/jampp/hdfs-namenode:2.4.0
     environment:
       CLUSTER_NAME: test
     env_file:
@@ -52,7 +52,7 @@ services:
       - default
 
   datanode:
-    image: public.ecr.aws/jampp/hdfs-datanode:2.2.0
+    image: public.ecr.aws/jampp/hdfs-datanode:2.4.0
     env_file:
       - ./hive/hadoop-hive.env
     environment:
@@ -63,7 +63,7 @@ services:
       - default
 
   hive-server:
-    image: public.ecr.aws/jampp/hive:2.2.0
+    image: public.ecr.aws/jampp/hive:2.4.0
     env_file:
       - ./hive/hadoop-hive.env
     environment:
@@ -79,14 +79,14 @@ services:
   hive-metastore:
     hostname: hivemetastore
     container_name: hive-metastore
-    image: public.ecr.aws/jampp/hive:2.2.0
+    image: public.ecr.aws/jampp/hive:2.4.0
     env_file:
       - ./hive/hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode:9864 hive-metastore-postgresql:5432"
     ports:
-    - "9083:9083"
+      - "9083:9083"
     networks:
       default:
         aliases:
@@ -100,7 +100,7 @@ services:
       - default
 
   trino:
-    image: trinodb/trino:351
+    image: trinodb/trino:370
     restart: always
     environment:
       S3_ACCESS_KEY: $MINIO_ACCESS_KEY
@@ -143,7 +143,7 @@ services:
     command: -c '/create_buckets.sh'
 
   migratron:
-    image: public.ecr.aws/jampp/migratron:2.2.0
+    image: public.ecr.aws/jampp/migratron:2.4.0
     depends_on:
       - minio
       - hive-metastore-postgresql
@@ -157,7 +157,7 @@ services:
       - ./migratron/migration_paths.sh:/migration_paths.sh
       # Override with your migrations directory
       - ./data/db:/db
-    entrypoint: ["sh", "-c", "/run_migrations.sh"]
+    entrypoint: [ "sh", "-c", "/run_migrations.sh" ]
 
   download_s3_data:
     image: minio/mc:latest
@@ -179,9 +179,9 @@ services:
     entrypoint: /download_s3_data.sh
 
   create_partitions:
-    image: public.ecr.aws/jampp/hive:2.2.0
+    image: public.ecr.aws/jampp/hive:2.4.0
     depends_on:
-    - hive-server
+      - hive-server
     networks:
       - default
     volumes:
@@ -189,7 +189,6 @@ services:
       # Override this with your own table names to repair:
       - ./hive/create_partitions/table_names.txt:/opt/table_names.txt
     entrypoint: /create_partitions.sh
-
 
 networks:
   default:
