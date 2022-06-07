@@ -2,7 +2,7 @@ version: "3"
 
 services:
   airflow:
-    image: public.ecr.aws/jampp/airflow:2.4.0
+    image: public.ecr.aws/jampp/airflow:3.0.0
     volumes:
       - ./airflow/conf:/home/airflow/conf/
       # Mount these for interactive editing:
