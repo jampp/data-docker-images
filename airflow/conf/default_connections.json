@@ -1,39 +1,39 @@
 {
     "hive_cli_default": {
         "conn_type": "hive_cli",
-        "conn_host": "hive-server",
-        "conn_port": 10000,
-        "conn_schema": "default",
-        "conn_login": "hive",
-        "conn_extra": "{\"use_beeline\": true, \"auth\": \"\"}"
+        "host": "hive-server",
+        "port": 10000,
+        "schema": "default",
+        "login": "hive",
+        "extra": "{\"use_beeline\": true, \"auth\": \"\"}"
     },
 
     "metastore_default": {
         "conn_type": "hive_metastore",
-        "conn_host": "hivemetastore",
-        "conn_port": 9083,
-        "conn_extra": "{\"authMechanism\": \"PLAIN\"}"
+        "host": "hivemetastore",
+        "port": 9083,
+        "extra": "{\"authMechanism\": \"PLAIN\"}"
     },
 
     "livy_default": {
         "conn_type": "http",
-        "conn_host": "livy",
-        "conn_port": 8998
+        "host": "livy",
+        "port": 8998
     },
 
     "trino_default": {
         "conn_type": "presto",
-        "conn_host": "trino",
-        "conn_port": 8083,
-        "conn_schema": "default",
-        "conn_login": "dev-user"
+        "host": "trino",
+        "port": 8083,
+        "schema": "default",
+        "login": "dev-user"
     },
 
     "presto_default": {
         "conn_type": "presto",
-        "conn_host": "trino",
-        "conn_port": 8083,
-        "conn_schema": "default",
-        "conn_login": "dev-user"
+        "host": "trino",
+        "port": 8083,
+        "schema": "default",
+        "login": "dev-user"
     }
 }
