@@ -15,6 +15,15 @@ can be described in a Major section.
 More information can be found HERE:
 
 
+v3.0.0 - 2022-08-10
+===================
+
+Changed
+-------
+
+* Update airflow version to 2.3.3
+
+
 v3.0.0 - 2022-06-08
 ===================
 
