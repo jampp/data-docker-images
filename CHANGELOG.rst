@@ -15,7 +15,7 @@ can be described in a Major section.
 More information can be found HERE:
 
 
-v3.0.0 - 2022-08-10
+v3.0.1 - 2022-08-11
 ===================
 
 Changed
