@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: hive-metastore-postgresql
+  name: hive-metastore-postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: hive-metastore-postgresql
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/default: "true"
+        io.kompose.service: hive-metastore-postgresql
+    spec:
+      containers:
+        - image: docker.io/jampp/hms-postgresql-arm:3.1.7
+          name: hive-metastore-postgresql
+          ports:
+            - containerPort: 5432
+          resources: {}
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+      restartPolicy: Always
+status: {}

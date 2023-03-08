@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: create-partitions
+  name: create-partitions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: create-partitions
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/default: "true"
+        io.kompose.service: create-partitions
+    spec:
+      containers:
+        - command:
+            - /create_partitions.sh
+          image: public.ecr.aws/jampp/hive:2.4.0
+          name: create_partitions
+          resources: {}
+          volumeMounts:
+            - mountPath: /create_partitions.sh
+              name: create-partitions-claim0
+            - mountPath: /opt/table_names.txt
+              name: create-partitions-claim1
+      restartPolicy: Always
+      volumes:
+        - name: create-partitions-claim0
+          persistentVolumeClaim:
+            claimName: create-partitions-claim0
+        - name: create-partitions-claim1
+          persistentVolumeClaim:
+            claimName: create-partitions-claim1
+status: {}

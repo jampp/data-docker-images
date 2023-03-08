@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  namenode:
+    volumes:
+      - ./data/namenode:/hadoop/dfs/name
+
+  datanode:
+    volumes:
+      - ./data/datanode:/hadoop/dfs/data
+
+  hive-metastore-postgresql:
+    volumes:
+      - ./data/hive-metastore:/var/lib/postgresql/data
+
+  minio:
+    volumes:
+      - ./data/minio/data:/data
+      - ./data/minio/config:/root/.minio

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: hive-server
+  name: hive-server
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "10000"
+      port: 10000
+      targetPort: 10000
+    - name: "8088"
+      port: 8088
+      targetPort: 8088
+  selector:
+    io.kompose.service: hive-server
+status:
+  loadBalancer: {}

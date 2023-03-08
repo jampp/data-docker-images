@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: datanode
+  name: datanode
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "9864"
+      port: 9864
+      targetPort: 9864
+  selector:
+    io.kompose.service: datanode
+status:
+  loadBalancer: {}

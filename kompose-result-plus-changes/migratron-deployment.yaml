@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: migratron
+  name: migratron
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: migratron
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/default: "true"
+        io.kompose.service: migratron
+    spec:
+      containers:
+        - command:
+            - sh
+            - -c
+            - /run_migrations.sh
+          image: public.ecr.aws/jampp/migratron:2.4.0
+          name: migratron
+          resources: {}
+          volumeMounts:
+            - mountPath: /run_migrations.sh
+              name: migratron-claim0
+            - mountPath: /migration_paths.sh
+              name: migratron-claim1
+            - mountPath: /db
+              name: migratron-claim2
+      restartPolicy: Always
+      volumes:
+        - name: migratron-claim0
+          persistentVolumeClaim:
+            claimName: migratron-claim0
+        - name: migratron-claim1
+          persistentVolumeClaim:
+            claimName: migratron-claim1
+        - name: migratron-claim2
+          persistentVolumeClaim:
+            claimName: migratron-claim2
+status: {}
